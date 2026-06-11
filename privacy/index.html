@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Privacy Policy | Truly</title>
+    <meta
+      name="description"
+      content="Privacy policy for Truly, a local-first reading assistant."
+    >
+    <style>
+      :root {
+        color-scheme: light dark;
+        --bg: #f6f8fb;
+        --page: #ffffff;
+        --text: #111827;
+        --muted: #5f6673;
+        --border: #d9dee7;
+        --accent: #2f7df6;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #111418;
+          --page: #1b1f24;
+          --text: #eef2f7;
+          --muted: #a8b0bd;
+          --border: #343a43;
+          --accent: #5aa0ff;
+        }
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        line-height: 1.65;
+      }
+
+      main {
+        width: min(860px, calc(100% - 32px));
+        margin: 32px auto;
+        padding: 40px;
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        background: var(--page);
+        box-shadow: 0 20px 60px rgb(15 23 42 / 0.08);
+      }
+
+      h1,
+      h2 {
+        line-height: 1.2;
+        letter-spacing: 0;
+      }
+
+      h1 {
+        margin: 0 0 8px;
+        font-size: clamp(34px, 6vw, 56px);
+      }
+
+      h2 {
+        margin: 34px 0 10px;
+        font-size: 22px;
+      }
+
+      p,
+      li {
+        font-size: 17px;
+      }
+
+      p {
+        margin: 0 0 16px;
+      }
+
+      ul {
+        margin: 0 0 18px;
+        padding-left: 24px;
+      }
+
+      .meta {
+        margin-bottom: 32px;
+        color: var(--muted);
+      }
+
+      a {
+        color: var(--accent);
+        font-weight: 700;
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Privacy Policy</h1>
+      <p class="meta">
+        Last updated: 2026-06-10<br>
+        Canonical URL: https://trulyreader.org/privacy
+      </p>
+
+      <p>
+        Truly is a local-first reading assistant for social feeds and web pages.
+        Reading analysis runs in the model environment you choose. Content is
+        sent to external tools only when you explicitly use those tools.
+      </p>
+
+      <p>
+        Truly does not operate a project-owned backend for feed content and
+        does not include product analytics or telemetry.
+      </p>
+
+      <h2>Information Processed</h2>
+      <p>When you use Truly on supported pages, the extension may process:</p>
+      <ul>
+        <li>visible post text, shared-post text, link previews, and image/video context;</li>
+        <li>page-hosted media URLs or image alt text when needed for reading assistance;</li>
+        <li>model analysis generated from the selected model source;</li>
+        <li>
+          extension settings such as language, theme, model endpoint
+          configuration, readiness state, and download preference.
+        </li>
+      </ul>
+
+      <h2>Where Processing Happens</h2>
+      <p>Processing depends on your selected model source:</p>
+      <ul>
+        <li>
+          Chrome built-in Gemini Nano: handled by Chrome's browser-managed local
+          AI capability when available.
+        </li>
+        <li>
+          Local model endpoint: sent to the local endpoint you configure, such
+          as localhost Ollama.
+        </li>
+        <li>
+          Private or remote endpoint: sent to the endpoint you configure and
+          authorize in Chrome when permission is required.
+        </li>
+      </ul>
+      <p>Truly does not send feed content to a Truly-owned server.</p>
+
+      <h2>User-Triggered External Tools</h2>
+      <p>
+        External actions are manual. They happen only after you click the
+        relevant button or link:
+      </p>
+      <ul>
+        <li>Google or Gemini search opens a browser page or tab with the selected follow-up query.</li>
+        <li>Meta AI handoff copies a prepared prompt and opens Meta AI for your manual use.</li>
+        <li>Markdown copy places a structured note on your clipboard.</li>
+        <li>Markdown download saves a structured note through browser or local file APIs.</li>
+      </ul>
+      <p>
+        Manual external-tool use is governed by the receiving service's own
+        terms and privacy policy.
+      </p>
+
+      <h2>Stored Data</h2>
+      <p>
+        Truly stores extension settings and readiness state in Chrome extension
+        storage. Depending on your settings, this can include model endpoint URLs
+        and model names. Do not store secrets in model endpoint URLs.
+      </p>
+      <p>
+        Markdown notes are saved only when you explicitly download them.
+        Clipboard content is written only when you explicitly use a copy action.
+      </p>
+
+      <h2>AI Output And User Judgment</h2>
+      <p>
+        Truly provides reading assistance, not authoritative truth. Model output
+        can be wrong, incomplete, or biased. Treat summaries, labels, and
+        follow-up questions as prompts for your own reading and verification.
+      </p>
+      <p>
+        If you use Chrome built-in Gemini Nano, Truly will follow Google's
+        <a href="https://policies.google.com/terms/generative-ai/use-policy">
+          Generative AI Prohibited Use Policy
+        </a>.
+      </p>
+
+      <h2>Sensitive Uses</h2>
+      <p>
+        Truly is not designed for high-stakes decisions, automated moderation,
+        legal, medical, financial, or safety-critical advice. Do not rely on
+        model output as the sole basis for such decisions.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        For privacy or Chrome Web Store questions, contact
+        <a href="mailto:cws@trulyreader.org">cws@trulyreader.org</a>.
+      </p>
+    </main>
+  </body>
+</html>
