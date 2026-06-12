@@ -99,6 +99,52 @@
         background: var(--panel);
       }
 
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 16px;
+        margin: 24px 0;
+      }
+
+      .form-card {
+        display: flex;
+        min-height: 150px;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 18px;
+        padding: 20px;
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        background: var(--panel);
+      }
+
+      .form-card h2 {
+        margin: 0 0 6px;
+      }
+
+      .form-card p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        align-self: flex-start;
+        min-height: 44px;
+        padding: 10px 18px;
+        border-radius: 999px;
+        background: var(--accent);
+        color: #ffffff;
+        font-weight: 800;
+      }
+
+      .button:hover {
+        text-decoration: none;
+        filter: brightness(0.95);
+      }
+
       a {
         color: var(--accent);
         font-weight: 700;
@@ -117,12 +163,30 @@
         Truly is an early preview. Your feedback helps shape what it becomes.
       </p>
 
-      <div class="panel">
-        <p>
-          The early preview feedback form will be linked here before the first
-          public release. For now, you can contact
-          <a href="mailto:hello@trulyreader.org">hello@trulyreader.org</a>.
-        </p>
+      <div class="form-grid" aria-label="Feedback forms">
+        <section class="form-card">
+          <div>
+            <h2>中文回饋表</h2>
+            <p>分享使用感受、困惑之處，以及你希望 Truly 接下來支援什麼。</p>
+          </div>
+          <a
+            class="button"
+            href="https://docs.google.com/forms/d/e/1FAIpQLSeZmQv-Q6lnluoC6_Uu3FMepbRlpCNkcDSQqFIb1Xf3yltAXA/viewform?usp=dialog"
+            >填寫中文表單</a
+          >
+        </section>
+
+        <section class="form-card">
+          <div>
+            <h2>English Feedback Form</h2>
+            <p>Share what felt useful, confusing, or worth improving next.</p>
+          </div>
+          <a
+            class="button"
+            href="https://docs.google.com/forms/d/e/1FAIpQLSfXrM9D55r1PzNFdvR6UiZFfo1cGBFcAJ5PFfq5QZsyLyuEaw/viewform?usp=dialog"
+            >Open English Form</a
+          >
+        </section>
       </div>
 
       <h2>What We Want To Learn</h2>
@@ -136,10 +200,10 @@
         </li>
       </ul>
 
-      <h2>Before You Send Feedback</h2>
+      <h2>Other Ways To Reach Us</h2>
       <p>
-        Please do not include other people's personal data, private posts, or
-        non-public content.
+        You can also contact
+        <a href="mailto:hello@trulyreader.org">hello@trulyreader.org</a>.
       </p>
       <p>
         If you have a reproducible bug, visible UI problem, screenshot, or log,
