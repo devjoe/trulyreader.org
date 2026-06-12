@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Early Preview Feedback | Truly</title>
+    <meta
+      name="description"
+      content="Share early preview feedback for Truly, a local-first reading assistant."
+    >
+    <style>
+      :root {
+        color-scheme: light dark;
+        --bg: #f6f8fb;
+        --page: #ffffff;
+        --panel: #f1f4f8;
+        --text: #111827;
+        --muted: #5f6673;
+        --border: #d9dee7;
+        --accent: #2f7df6;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #111418;
+          --page: #1b1f24;
+          --panel: #15191e;
+          --text: #eef2f7;
+          --muted: #a8b0bd;
+          --border: #343a43;
+          --accent: #5aa0ff;
+        }
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        line-height: 1.65;
+      }
+
+      main {
+        width: min(860px, calc(100% - 32px));
+        margin: 32px auto;
+        padding: 40px;
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        background: var(--page);
+        box-shadow: 0 20px 60px rgb(15 23 42 / 0.08);
+      }
+
+      h1,
+      h2 {
+        line-height: 1.2;
+        letter-spacing: 0;
+      }
+
+      h1 {
+        margin: 0 0 8px;
+        font-size: clamp(34px, 6vw, 56px);
+      }
+
+      h2 {
+        margin: 34px 0 10px;
+        font-size: 22px;
+      }
+
+      p,
+      li {
+        font-size: 17px;
+      }
+
+      p {
+        margin: 0 0 16px;
+      }
+
+      ul {
+        margin: 0 0 18px;
+        padding-left: 24px;
+      }
+
+      .meta {
+        margin-bottom: 32px;
+        color: var(--muted);
+      }
+
+      .panel {
+        margin: 24px 0;
+        padding: 20px;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        background: var(--panel);
+      }
+
+      a {
+        color: var(--accent);
+        font-weight: 700;
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Early Preview Feedback</h1>
+      <p class="meta">
+        Truly is an early preview. Your feedback helps shape what it becomes.
+      </p>
+
+      <div class="panel">
+        <p>
+          The early preview feedback form will be linked here before the first
+          public release. For now, you can contact
+          <a href="mailto:hello@trulyreader.org">hello@trulyreader.org</a>.
+        </p>
+      </div>
+
+      <h2>What We Want To Learn</h2>
+      <ul>
+        <li>What feels useful, confusing, unnecessary, or wrong.</li>
+        <li>What you want Truly to help with next.</li>
+        <li>Whether you want to join a tester group.</li>
+        <li>
+          Whether suspected fake accounts or coordinated influence comments are
+          a problem for you, and how you usually judge them.
+        </li>
+      </ul>
+
+      <h2>Before You Send Feedback</h2>
+      <p>
+        Please do not include other people's personal data, private posts, or
+        non-public content.
+      </p>
+      <p>
+        If you have a reproducible bug, visible UI problem, screenshot, or log,
+        please use the public GitHub Issues page after the repository opens.
+      </p>
+
+      <p><a href="/">Back to Truly</a></p>
+    </main>
+  </body>
+</html>
