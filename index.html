@@ -6,27 +6,66 @@
     <title>Truly</title>
     <meta
       name="description"
-      content="Truly is a local-first reading assistant for social feeds and web pages."
+      content="Truly is a local-AI-first reading companion for social feeds and web pages."
     >
+    <meta property="og:title" content="Truly">
+    <meta
+      property="og:description"
+      content="Clarify first. Verify next. Act with context."
+    >
+    <meta property="og:image" content="https://trulyreader.org/assets/truly-social-en.png">
+    <meta
+      property="og:image:alt"
+      content="Truly preview showing reading hints, an expanded view, and a side panel."
+    >
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://trulyreader.org/">
+    <link rel="canonical" href="https://trulyreader.org/">
+    <link rel="icon" href="/assets/truly-social-en.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Truly">
+    <meta
+      name="twitter:description"
+      content="Clarify first. Verify next. Act with context."
+    >
+    <meta name="twitter:image" content="https://trulyreader.org/assets/truly-social-en.png">
     <style>
       :root {
         color-scheme: light dark;
-        --bg: #f6f8fb;
-        --card: #ffffff;
-        --text: #111827;
-        --muted: #5f6673;
-        --border: #d9dee7;
-        --accent: #2f7df6;
+        --bg: #f4f7fb;
+        --surface: #ffffff;
+        --surface-soft: #f7f9fc;
+        --surface-muted: #edf2f8;
+        --ink: #101827;
+        --muted: #596475;
+        --soft: #667184;
+        --border: #d9e1ec;
+        --border-strong: #c7d1de;
+        --accent: #2563ff;
+        --accent-soft: #e8f0ff;
+        --green: #2bbf6a;
+        --amber: #f2b42b;
+        --red: #f25f5c;
+        --shadow: 0 24px 70px rgb(15 23 42 / 0.12);
       }
 
       @media (prefers-color-scheme: dark) {
         :root {
-          --bg: #111418;
-          --card: #1b1f24;
-          --text: #eef2f7;
-          --muted: #a8b0bd;
-          --border: #343a43;
-          --accent: #5aa0ff;
+          --bg: #0d1117;
+          --surface: #171b20;
+          --surface-soft: #11161c;
+          --surface-muted: #1d2229;
+          --ink: #f1f5f9;
+          --muted: #b3bdc9;
+          --soft: #8792a0;
+          --border: #2d3540;
+          --border-strong: #394451;
+          --accent: #5b9cff;
+          --accent-soft: #13233d;
+          --green: #3ad17a;
+          --amber: #f5c044;
+          --red: #ff6b68;
+          --shadow: 0 24px 70px rgb(0 0 0 / 0.38);
         }
       }
 
@@ -34,76 +73,1059 @@
         box-sizing: border-box;
       }
 
+      @media (prefers-reduced-motion: no-preference) {
+        html {
+          scroll-behavior: smooth;
+        }
+      }
+
       body {
         margin: 0;
-        min-height: 100vh;
-        display: grid;
-        place-items: center;
-        background: var(--bg);
-        color: var(--text);
+        overflow-x: hidden;
+        background:
+          radial-gradient(circle at 14% 4%, rgb(37 99 255 / 0.12), transparent 28rem),
+          linear-gradient(180deg, var(--bg), var(--surface-soft));
+        color: var(--ink);
         font-family:
           Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
           "Segoe UI", sans-serif;
-        line-height: 1.6;
-      }
-
-      main {
-        width: min(720px, calc(100% - 32px));
-        padding: 40px;
-        border: 1px solid var(--border);
-        border-radius: 20px;
-        background: var(--card);
-        box-shadow: 0 20px 60px rgb(15 23 42 / 0.08);
-      }
-
-      .brand {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 20px;
-        font-size: 36px;
-        font-weight: 800;
-        letter-spacing: 0;
-      }
-
-      .dot {
-        width: 10px;
-        height: 10px;
-        border-radius: 999px;
-        background: var(--accent);
-        box-shadow: 0 0 14px rgb(47 125 246 / 0.6);
-      }
-
-      p {
-        margin: 0 0 18px;
-        color: var(--muted);
-        font-size: 18px;
+        line-height: 1.55;
       }
 
       a {
-        color: var(--accent);
-        font-weight: 700;
+        color: inherit;
         text-decoration: none;
       }
 
       a:hover {
         text-decoration: underline;
       }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      .page {
+        width: min(1180px, calc(100% - 40px));
+        margin: 0 auto;
+      }
+
+      .site-header {
+        position: sticky;
+        z-index: 20;
+        top: 0;
+        background: rgb(244 247 251 / 0.82);
+        background: color-mix(in srgb, var(--bg) 84%, transparent);
+        backdrop-filter: blur(18px);
+      }
+
+      .site-header-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 20px 0 16px;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        overflow: hidden;
+        border-radius: 13px;
+      }
+
+      .brand-mark {
+        display: block;
+        width: 142px;
+        height: 58px;
+        overflow: hidden;
+        border-radius: 13px;
+      }
+
+      .brand-mark img {
+        display: block;
+        width: 216px;
+        max-width: none;
+        height: auto;
+        transform: translate(-6px, -7px);
+      }
+
+      .language-switch {
+        position: relative;
+        color: var(--soft);
+        font-size: 12px;
+        font-weight: 720;
+        letter-spacing: 0.02em;
+      }
+
+      .language-switch summary {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        min-height: 34px;
+        padding: 3px 4px;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        background: color-mix(in srgb, var(--surface) 78%, transparent);
+        cursor: pointer;
+        list-style: none;
+      }
+
+      .language-switch summary::-webkit-details-marker {
+        display: none;
+      }
+
+      .language-switch svg {
+        width: 15px;
+        height: 15px;
+        margin-left: 7px;
+        color: var(--soft);
+        opacity: 0.78;
+      }
+
+      .language-switch .current-language {
+        display: inline-flex;
+        align-items: center;
+        min-height: 26px;
+        padding: 0 10px 0 0;
+        color: var(--muted);
+      }
+
+      .language-switch-options {
+        position: absolute;
+        top: calc(100% + 6px);
+        right: 0;
+        z-index: 30;
+        min-width: 104px;
+        padding: 4px;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        background: color-mix(in srgb, var(--surface) 94%, transparent);
+        box-shadow: 0 16px 38px rgb(15 23 42 / 0.12);
+      }
+
+      .language-switch-options span {
+        display: flex;
+        align-items: center;
+        min-height: 30px;
+        padding: 0 10px;
+        border-radius: 999px;
+      }
+
+      .language-switch .inactive {
+        opacity: 0.46;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(400px, 0.76fr) minmax(0, 1.24fr);
+        gap: 36px;
+        align-items: center;
+        min-height: min(760px, calc(100vh - 78px));
+        padding: 44px 0 70px;
+      }
+
+      .hero > *,
+      .preview-layout > *,
+      .roadmap-shell > * {
+        min-width: 0;
+      }
+
+      .hero-copy {
+        max-width: 500px;
+      }
+
+      .hero h1 {
+        margin-bottom: 22px;
+        font-size: clamp(40px, 4vw, 54px);
+        line-height: 1.05;
+        letter-spacing: 0;
+      }
+
+      .hero-lead {
+        max-width: 440px;
+        color: var(--muted);
+        font-size: 18px;
+      }
+
+      .button {
+        display: inline-flex;
+        min-height: 46px;
+        align-items: center;
+        justify-content: center;
+        padding: 0 18px;
+        border: 1px solid var(--border-strong);
+        border-radius: 999px;
+        background: var(--surface);
+        color: var(--ink);
+        font-size: 15px;
+        font-weight: 850;
+        box-shadow: 0 10px 28px rgb(15 23 42 / 0.08);
+      }
+
+      .button:hover {
+        transform: translateY(-1px);
+        text-decoration: none;
+      }
+
+      .button.primary {
+        border-color: var(--accent);
+        background: var(--accent);
+        color: white;
+      }
+
+      .concept-panel {
+        position: relative;
+        overflow: hidden;
+        margin: 0;
+        border: 1px solid var(--border);
+        border-radius: 28px;
+        background:
+          radial-gradient(circle at 34% 18%, rgb(37 99 255 / 0.18), transparent 18rem),
+          var(--surface);
+        box-shadow: var(--shadow);
+      }
+
+      .concept-panel::before {
+        position: absolute;
+        inset: 0;
+        content: "";
+        background:
+          linear-gradient(180deg, transparent 68%, rgb(0 0 0 / 0.16)),
+          radial-gradient(circle at 72% 42%, rgb(91 156 255 / 0.12), transparent 18rem);
+        pointer-events: none;
+      }
+
+      .concept-panel img,
+      .concept-panel video {
+        display: block;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1537 / 1023;
+        filter: brightness(1.12) contrast(1.04) saturate(1.04);
+        object-fit: cover;
+      }
+
+      .concept-panel .concept-static {
+        display: none;
+      }
+
+      .reading-moment {
+        position: relative;
+        display: grid;
+        gap: 14px;
+        padding: 24px;
+      }
+
+      .moment-topbar {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 12px;
+        align-items: center;
+        color: var(--soft);
+        font-size: 13px;
+        font-weight: 820;
+      }
+
+      .moment-window-dots {
+        display: flex;
+        gap: 7px;
+      }
+
+      .moment-window-dots span {
+        width: 9px;
+        height: 9px;
+        border-radius: 999px;
+        background: var(--border-strong);
+      }
+
+      .moment-feed {
+        display: grid;
+        gap: 11px;
+        width: 62%;
+      }
+
+      .mini-post {
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        background: color-mix(in srgb, var(--surface) 90%, transparent);
+        padding: 16px;
+        box-shadow: 0 16px 40px rgb(15 23 42 / 0.07);
+      }
+
+      .mini-post.muted {
+        opacity: 0.48;
+      }
+
+      .post-author {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 12px;
+      }
+
+      .author-lockup {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 0;
+      }
+
+      .avatar {
+        width: 32px;
+        height: 32px;
+        flex: 0 0 auto;
+        border: 1px solid var(--border-strong);
+        border-radius: 999px;
+        background:
+          radial-gradient(circle at 35% 35%, rgb(255 255 255 / 0.9), transparent 0.4rem),
+          linear-gradient(135deg, #5b9cff, #1f2937);
+      }
+
+      .author-name {
+        display: block;
+        font-weight: 880;
+        line-height: 1.1;
+      }
+
+      .post-time {
+        display: block;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 720;
+      }
+
+      .post-menu {
+        color: var(--soft);
+        font-size: 20px;
+        letter-spacing: 0.08em;
+      }
+
+      .post-text {
+        margin-bottom: 14px;
+        color: var(--ink);
+        font-size: 14px;
+        font-weight: 680;
+      }
+
+      .post-text p {
+        margin-bottom: 8px;
+      }
+
+      .post-text p:last-child {
+        margin-bottom: 0;
+      }
+
+      .heads-up-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 12px;
+        padding: 9px 12px;
+        border: 1px solid var(--border);
+        border-radius: 15px;
+        background: color-mix(in srgb, var(--surface-muted) 72%, transparent);
+        font-size: 12px;
+        font-weight: 850;
+      }
+
+      .signal-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .signal-dot {
+        width: 10px;
+        height: 10px;
+        flex: 0 0 auto;
+        border-radius: 999px;
+        background: var(--amber);
+        box-shadow: 0 0 18px rgb(242 180 43 / 0.36);
+      }
+
+      .signal-status {
+        color: var(--soft);
+        font-size: 11px;
+      }
+
+      .heads-up-note {
+        margin: 0 0 14px;
+        padding: 12px 12px 12px 14px;
+        border-left: 3px solid var(--accent);
+        border-radius: 12px;
+        background: color-mix(in srgb, var(--accent-soft) 72%, transparent);
+        color: var(--ink);
+        font-size: 13px;
+        font-weight: 740;
+      }
+
+      .reaction-row {
+        display: flex;
+        gap: 18px;
+        border-top: 1px solid var(--border);
+        padding-top: 10px;
+        color: var(--soft);
+        font-size: 12px;
+        font-weight: 820;
+      }
+
+      .side-context {
+        position: absolute;
+        right: 24px;
+        top: 205px;
+        width: 35%;
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        background: color-mix(in srgb, var(--surface) 94%, transparent);
+        box-shadow: 0 24px 64px rgb(15 23 42 / 0.16);
+        padding: 16px;
+      }
+
+      .side-context h2 {
+        margin-bottom: 8px;
+        font-size: 17px;
+        line-height: 1.15;
+      }
+
+      .side-context ul {
+        margin: 0;
+        padding-left: 18px;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .side-context li + li {
+        margin-top: 5px;
+      }
+
+      .context-tools {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 7px;
+        margin-top: 14px;
+      }
+
+      .context-tools span {
+        padding: 5px 8px;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 850;
+      }
+
+      .section {
+        min-height: min(760px, 100vh);
+        padding: 82px 0;
+      }
+
+      .section-heading {
+        max-width: 760px;
+        margin-bottom: 28px;
+      }
+
+      .section-heading h2 {
+        margin-bottom: 12px;
+        font-size: 52px;
+        line-height: 1.05;
+        letter-spacing: 0;
+      }
+
+      .section-heading p {
+        color: var(--muted);
+        font-size: 19px;
+      }
+
+      .preview-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+        gap: 28px;
+        align-items: start;
+      }
+
+      .demo-card {
+        overflow: hidden;
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        background: var(--surface);
+        box-shadow: var(--shadow);
+      }
+
+      .demo-chrome {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        padding: 14px 16px;
+        border-bottom: 1px solid var(--border);
+        color: var(--soft);
+        font-size: 13px;
+        font-weight: 820;
+      }
+
+      .window-dots {
+        display: flex;
+        gap: 7px;
+      }
+
+      .window-dots span {
+        width: 10px;
+        height: 10px;
+        border-radius: 999px;
+        background: var(--border-strong);
+      }
+
+      .demo-media {
+        position: relative;
+        background: #0f1720;
+      }
+
+      .demo-card img,
+      .demo-card video {
+        display: block;
+        width: 100%;
+        height: auto;
+        background: #0f1720;
+      }
+
+      .demo-badge {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        padding: 5px 9px;
+        border: 1px solid rgb(255 255 255 / 0.16);
+        border-radius: 999px;
+        background: rgb(10 15 24 / 0.7);
+        color: rgb(255 255 255 / 0.78);
+        font-size: 11px;
+        font-weight: 780;
+        letter-spacing: 0.02em;
+        pointer-events: none;
+      }
+
+      .caption {
+        margin: 0;
+        padding: 13px 16px 16px;
+        color: var(--soft);
+        font-size: 13px;
+        font-weight: 720;
+      }
+
+      .feature-list {
+        display: grid;
+        gap: 14px;
+      }
+
+      .feature-card {
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        background: var(--surface);
+        padding: 22px;
+        box-shadow: 0 18px 50px rgb(15 23 42 / 0.06);
+      }
+
+      .feature-card h3 {
+        margin-bottom: 8px;
+        font-size: 22px;
+        line-height: 1.15;
+      }
+
+      .feature-card p {
+        margin-bottom: 0;
+        color: var(--muted);
+      }
+
+      .trust-strip {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+        margin-top: 18px;
+      }
+
+      .preview-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 18px;
+      }
+
+      .trust-item {
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        background: var(--surface-soft);
+        padding: 16px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .trust-item strong {
+        display: block;
+        margin-bottom: 5px;
+        color: var(--ink);
+        font-size: 15px;
+      }
+
+      .roadmap-shell {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(280px, 0.42fr);
+        gap: 24px;
+        align-items: start;
+      }
+
+      .timeline {
+        display: grid;
+        gap: 12px;
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        background: var(--surface);
+        padding: 28px;
+        box-shadow: 0 18px 50px rgb(15 23 42 / 0.06);
+      }
+
+      .timeline-row {
+        display: grid;
+        grid-template-columns: 78px 1fr;
+        gap: 14px;
+        align-items: start;
+        padding: 18px 0;
+        border-top: 1px solid var(--border);
+      }
+
+      .timeline-row:first-child {
+        border-top: 0;
+        padding-top: 0;
+      }
+
+      .phase {
+        color: var(--accent);
+        font-size: 14px;
+        font-weight: 900;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+      }
+
+      .timeline-row h3 {
+        margin-bottom: 6px;
+        font-size: 21px;
+      }
+
+      .timeline-row p {
+        margin-bottom: 0;
+        color: var(--muted);
+      }
+
+      .cta-card {
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        background:
+          radial-gradient(circle at top right, rgb(37 99 255 / 0.14), transparent 14rem),
+          var(--surface);
+        padding: 26px;
+        box-shadow: var(--shadow);
+      }
+
+      .cta-card h3 {
+        margin-bottom: 10px;
+        font-size: 28px;
+        line-height: 1.12;
+      }
+
+      .cta-card p {
+        color: var(--muted);
+      }
+
+      .cta-card .button {
+        width: 100%;
+        margin-top: 10px;
+      }
+
+      .footer {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        padding: 38px 0 54px;
+        color: var(--soft);
+        font-size: 14px;
+      }
+
+      .footer-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        font-weight: 780;
+      }
+
+      @media (max-width: 960px) {
+        .site-header {
+          position: static;
+          background: transparent;
+          backdrop-filter: none;
+        }
+
+        .hero,
+        .preview-layout,
+        .roadmap-shell {
+          grid-template-columns: 1fr;
+        }
+
+        .hero {
+          min-height: 0;
+        }
+
+        .trust-strip {
+          grid-template-columns: 1fr;
+        }
+
+        .language-switch {
+          font-size: 11px;
+        }
+      }
+
+      @media (max-width: 600px) {
+        .page {
+          width: calc(100% - 24px);
+          max-width: 360px;
+          margin-right: auto;
+          margin-left: auto;
+        }
+
+        .brand-mark {
+          width: 126px;
+          height: 52px;
+        }
+
+        .brand-mark img {
+          width: 192px;
+          transform: translate(-5px, -6px);
+        }
+
+        .hero,
+        .section {
+          padding: 38px 0;
+        }
+
+        .hero h1,
+        .hero-lead,
+        .concept-panel,
+        .preview-layout,
+        .roadmap-shell {
+          max-width: 100%;
+        }
+
+        .hero h1 {
+          font-size: 40px;
+          line-height: 1.04;
+          overflow-wrap: break-word;
+        }
+
+        .hero-lead,
+        .section-heading p {
+          font-size: 17px;
+          overflow-wrap: anywhere;
+        }
+
+        .section-heading h2 {
+          font-size: 36px;
+        }
+
+        .concept-panel {
+          width: 100%;
+          border-radius: 20px;
+        }
+
+        .concept-panel img {
+          min-height: 340px;
+        }
+
+        .reading-moment {
+          padding: 16px;
+        }
+
+        .moment-feed {
+          width: auto;
+        }
+
+        .side-context {
+          position: static;
+          width: auto;
+        }
+
+        .mini-post.muted {
+          display: none;
+        }
+
+        .button {
+          width: 100%;
+        }
+
+        .timeline,
+        .feature-card,
+        .cta-card {
+          padding: 20px;
+        }
+
+        .timeline-row {
+          grid-template-columns: 1fr;
+          gap: 6px;
+        }
+      }
+
+      @media (prefers-color-scheme: dark) {
+        .site-header {
+          background: rgb(13 17 23 / 0.82);
+          background: color-mix(in srgb, var(--bg) 84%, transparent);
+        }
+      }
+
+      @media (max-width: 960px) {
+        .site-header {
+          background: transparent;
+          backdrop-filter: none;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .demo-card video {
+          opacity: 1;
+        }
+
+        .concept-panel video {
+          display: none;
+        }
+
+        .concept-panel .concept-static {
+          display: block;
+        }
+      }
     </style>
   </head>
   <body>
-    <main>
-      <div class="brand" aria-label="Truly">
-        <span>truly</span>
-        <span class="dot" aria-hidden="true"></span>
+    <header class="site-header">
+      <div class="site-header-inner page">
+        <a class="brand" href="/" aria-label="Truly home">
+          <span class="brand-mark" aria-hidden="true">
+            <img src="assets/truly-readme-lockup.svg" alt="">
+          </span>
+          <span class="sr-only">Truly</span>
+        </a>
+        <details class="language-switch">
+          <summary aria-label="Language: English">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z"
+                stroke="currentColor"
+                stroke-width="1.8"
+              ></path>
+              <path
+                d="M3.6 9h16.8M3.6 15h16.8M12 3c2.1 2.2 3.2 5.2 3.2 9S14.1 18.8 12 21c-2.1-2.2-3.2-5.2-3.2-9S9.9 5.2 12 3Z"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+              ></path>
+            </svg>
+            <span class="current-language">English</span>
+          </summary>
+          <div class="language-switch-options" aria-label="Language options">
+            <span class="inactive" aria-disabled="true">中文</span>
+          </div>
+        </details>
       </div>
-      <p>
-        Truly is a local-first reading assistant for social feeds and web pages.
-      </p>
-      <p>
-        Read the <a href="/privacy/">privacy policy</a> or share
-        <a href="/feedback/">early preview feedback</a>.
-      </p>
+    </header>
+
+    <main>
+      <section class="hero page" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <h1 id="hero-title">From scattered signals to clearer context.</h1>
+          <p class="hero-lead">
+            Truly helps you slow down, check what matters, and decide what to
+            do next.
+          </p>
+        </div>
+
+        <figure class="concept-panel" aria-label="A quiet reading moment where scattered information is organized into clearer context.">
+          <video
+            autoplay
+            loop
+            muted
+            playsinline
+            preload="metadata"
+            poster="assets/truly-hero-context-map.png"
+            aria-label="A quiet reader at night looking at connected information cards that resolve into a calmer context panel."
+          >
+            <source src="assets/truly-hero-context-map-local-motion.mp4" type="video/mp4">
+          </video>
+          <img
+            class="concept-static"
+            src="assets/truly-hero-context-map.png"
+            alt="A quiet reader at night looking at connected information cards that resolve into a calmer context panel."
+            width="1537"
+            height="1023"
+          >
+        </figure>
+      </section>
+
+      <section id="roadmap" class="section page" aria-labelledby="roadmap-title">
+        <div class="section-heading">
+          <h2 id="roadmap-title">From personal clarity to shared response.</h2>
+          <p>
+            The preview starts with reading. The larger direction is a practical
+            path from context to verification to responsible action.
+          </p>
+        </div>
+        <div class="roadmap-shell">
+          <div class="timeline">
+            <div class="timeline-row">
+              <div class="phase">Now</div>
+              <div>
+                <h3>Early preview and feedback</h3>
+                <p>
+                  Stabilize the Chrome extension, improve model setup, and learn
+                  from real reading sessions.
+                </p>
+              </div>
+            </div>
+            <div class="timeline-row">
+              <div class="phase">Next</div>
+              <div>
+                <h3>More places to read</h3>
+                <p>
+                  Analyze comments, support more social platforms, and add a
+                  basic mode for ordinary web pages.
+                </p>
+              </div>
+            </div>
+            <div class="timeline-row">
+              <div class="phase">Later</div>
+              <div>
+                <h3>Verification and response workflows</h3>
+                <p>
+                  Explore mobile solutions, collaborative signals, reusable
+                  evidence links, and safer ways to respond with context.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <aside class="cta-card" aria-label="Get involved">
+            <h3>Help shape what comes next.</h3>
+            <p>
+              Tell us what feels useful, where it gets in your way, and what
+              should become easier to verify or act on.
+            </p>
+            <a class="button primary" href="/feedback/">Send feedback</a>
+            <a class="button" href="https://github.com/devjoe/truly">View GitHub</a>
+          </aside>
+        </div>
+      </section>
+
+      <section id="preview" class="section page" aria-labelledby="preview-title">
+        <div class="section-heading">
+          <h2 id="preview-title">The first preview is a Chrome extension.</h2>
+          <p>
+            It appears where confusion usually starts: beside the post you are
+            already reading.
+          </p>
+        </div>
+        <div class="preview-layout">
+          <figure class="demo-card" aria-label="Truly product preview">
+            <div class="demo-chrome">
+              <div class="window-dots" aria-hidden="true">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <span>reading hints · expanded view · side panel</span>
+            </div>
+            <div class="demo-media">
+              <video
+                controls
+                muted
+                loop
+                playsinline
+                preload="metadata"
+                poster="assets/truly-demo-balanced-poster.jpg"
+                aria-label="Animated synthetic demo of Truly showing reading hints, an expanded summary, and a side panel."
+              >
+                <source src="assets/truly-demo-balanced.mp4" type="video/mp4">
+                <img
+                  src="assets/truly-demo-balanced-poster.jpg"
+                  alt="Synthetic demo preview of Truly showing reading hints, an expanded summary, and a side panel."
+                  loading="lazy"
+                >
+              </video>
+              <span class="demo-badge">Synthetic preview</span>
+            </div>
+            <figcaption class="caption">
+              Reading hints, expanded view, and side panel.
+            </figcaption>
+          </figure>
+
+          <div>
+            <div class="feature-list">
+              <article class="feature-card">
+                <h3>Reading hints</h3>
+                <p>Small signals before a post, without turning the feed into a report.</p>
+              </article>
+              <article class="feature-card">
+                <h3>Expanded context</h3>
+                <p>A short reason, reading signals, and a path to deeper context.</p>
+              </article>
+              <article class="feature-card">
+                <h3>Side panel handoff</h3>
+                <p>Questions, notes, search, Meta AI, and export actions stay one click away.</p>
+              </article>
+            </div>
+            <div class="trust-strip" aria-label="Trust boundaries">
+              <div class="trust-item">
+                <strong>Your model setup</strong>
+                Chrome Gemini Nano, Ollama, or your own compatible endpoint.
+              </div>
+              <div class="trust-item">
+                <strong>No project feed backend</strong>
+                Reading analysis is not sent to a Truly-operated server.
+              </div>
+              <div class="trust-item">
+                <strong>Click before handoff</strong>
+                External tools receive content only when you send it.
+              </div>
+            </div>
+            <div class="preview-actions" aria-label="Preview actions">
+              <a class="button primary" href="https://github.com/devjoe/truly/releases">Download preview</a>
+              <a class="button" href="https://github.com/devjoe/truly">View GitHub</a>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
+
+    <footer class="footer page">
+      <div>Truly · 梳理 — to comb through and clarify.</div>
+      <div class="footer-links">
+        <a href="https://github.com/devjoe/truly">GitHub</a>
+        <a href="/privacy/">Privacy</a>
+        <a href="/feedback/">Feedback</a>
+        <a href="mailto:hello@trulyreader.org">hello@trulyreader.org</a>
+      </div>
+    </footer>
   </body>
 </html>

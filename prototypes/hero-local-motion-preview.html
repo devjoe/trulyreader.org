@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Truly Hero Local Motion Preview</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #080d14;
+        --panel: #101722;
+        --line: #283445;
+        --text: #edf4ff;
+        --muted: #9aa7b8;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background:
+          radial-gradient(circle at 22% 0%, rgba(37, 99, 255, 0.18), transparent 30%),
+          var(--bg);
+        color: var(--text);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+      }
+
+      main {
+        width: min(1480px, calc(100vw - 48px));
+        margin: 36px auto 48px;
+      }
+
+      header {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 24px;
+        margin-bottom: 20px;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 24px;
+        letter-spacing: 0;
+      }
+
+      p {
+        margin: 6px 0 0;
+        color: var(--muted);
+        font-size: 15px;
+        line-height: 1.5;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .card {
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        background: rgba(16, 23, 34, 0.72);
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+        overflow: hidden;
+      }
+
+      .card h2 {
+        margin: 0;
+        padding: 16px 18px 12px;
+        color: #d9e5f6;
+        font-size: 15px;
+        letter-spacing: 0;
+      }
+
+      .media {
+        width: 100%;
+        display: block;
+        aspect-ratio: 1280 / 852;
+        object-fit: cover;
+        background: #050910;
+      }
+
+      .note {
+        margin-top: 16px;
+        padding: 14px 16px;
+        border: 1px solid rgba(96, 165, 250, 0.24);
+        border-radius: 16px;
+        color: #cbd8e8;
+        background: rgba(37, 99, 255, 0.08);
+        font-size: 14px;
+      }
+
+      @media (max-width: 880px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <div>
+          <h1>Hero Local Motion Preview</h1>
+          <p>Base image remains still. Motion is limited to the green confirmation signal.</p>
+        </div>
+      </header>
+      <section class="grid" aria-label="Hero motion comparison">
+        <article class="card">
+          <h2>Still image</h2>
+          <img class="media" src="../assets/truly-hero-context-map.png" alt="Original Truly hero concept" />
+        </article>
+        <article class="card">
+          <h2>Local generated-feel composite</h2>
+          <video
+            class="media"
+            src="../assets/truly-hero-context-map-local-motion.mp4?v=green-signal-only-2"
+            autoplay
+            loop
+            muted
+            playsinline
+            controls
+          ></video>
+        </article>
+      </section>
+      <div class="note">
+        This version avoids whole-image breathing. It keeps the image still and only pulses the green confirmation signal.
+      </div>
+    </main>
+  </body>
+</html>

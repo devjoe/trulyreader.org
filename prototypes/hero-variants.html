@@ -1,0 +1,1542 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Truly Hero Variants Prototype</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #0d1117;
+        --panel: #151a20;
+        --panel-2: #1b2129;
+        --panel-3: #10151b;
+        --ink: #f4f7fb;
+        --muted: #b8c1cf;
+        --soft: #8390a1;
+        --line: #2d3642;
+        --line-2: #3a4554;
+        --blue: #5b9cff;
+        --blue-2: #2563ff;
+        --green: #3ad17a;
+        --amber: #f5c044;
+        --red: #ff6b68;
+        --shadow: 0 30px 90px rgb(0 0 0 / 0.38);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        overflow-x: hidden;
+        background:
+          radial-gradient(circle at 16% 8%, rgb(37 99 255 / 0.18), transparent 32rem),
+          linear-gradient(180deg, #0d1117, #0a0e13);
+        color: var(--ink);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .prototype-note {
+        position: fixed;
+        z-index: 50;
+        top: 14px;
+        left: 50%;
+        transform: translateX(-50%);
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: rgb(13 17 23 / 0.82);
+        padding: 8px 14px;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 760;
+        letter-spacing: 0.02em;
+        backdrop-filter: blur(18px);
+      }
+
+      .variant {
+        display: none;
+        min-height: 100vh;
+        padding: 42px clamp(20px, 5vw, 72px) 96px;
+      }
+
+      .variant.active {
+        display: grid;
+      }
+
+      .shell {
+        width: min(1360px, 100%);
+        margin: auto;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 28px;
+        margin-bottom: clamp(44px, 7vh, 96px);
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .brand img {
+        width: 160px;
+        height: auto;
+        display: block;
+        filter: drop-shadow(0 18px 38px rgb(0 0 0 / 0.2));
+      }
+
+      .nav {
+        display: flex;
+        gap: 8px;
+        color: var(--muted);
+        font-size: 14px;
+        font-weight: 780;
+      }
+
+      .nav span {
+        border: 1px solid transparent;
+        border-radius: 999px;
+        padding: 8px 12px;
+      }
+
+      .nav span:first-child {
+        border-color: var(--line);
+        background: rgb(255 255 255 / 0.04);
+        color: var(--ink);
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 0.95fr) minmax(420px, 1.05fr);
+        gap: clamp(40px, 7vw, 92px);
+        align-items: center;
+      }
+
+      .copy {
+        max-width: 660px;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 22px;
+        color: var(--muted);
+        font-size: 14px;
+        font-weight: 860;
+        letter-spacing: 0.13em;
+        text-transform: uppercase;
+      }
+
+      .eyebrow::before {
+        width: 11px;
+        height: 11px;
+        border-radius: 999px;
+        background: var(--green);
+        box-shadow: 0 0 0 6px rgb(58 209 122 / 0.12);
+        content: "";
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(56px, 8vw, 112px);
+        line-height: 0.95;
+        letter-spacing: -0.055em;
+      }
+
+      .lead {
+        margin: 26px 0 0;
+        color: var(--muted);
+        font-size: clamp(20px, 2.2vw, 30px);
+        line-height: 1.45;
+        letter-spacing: -0.02em;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 32px;
+      }
+
+      .button {
+        border: 1px solid var(--line-2);
+        border-radius: 999px;
+        background: rgb(255 255 255 / 0.045);
+        padding: 13px 18px;
+        color: var(--ink);
+        font-weight: 840;
+      }
+
+      .button.primary {
+        border-color: transparent;
+        background: linear-gradient(135deg, #6aa7ff, var(--blue-2));
+        color: #fff;
+      }
+
+      .visual-card {
+        position: relative;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 34px;
+        background:
+          linear-gradient(135deg, rgb(255 255 255 / 0.055), transparent),
+          var(--panel);
+        box-shadow: var(--shadow);
+      }
+
+      .mini-feed {
+        display: grid;
+        gap: 14px;
+        padding: 22px;
+      }
+
+      .post {
+        position: relative;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: var(--panel-2);
+        padding: 16px;
+      }
+
+      .post.dim {
+        opacity: 0.48;
+      }
+
+      .post-head {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 12px;
+      }
+
+      .avatar {
+        width: 30px;
+        height: 30px;
+        border-radius: 999px;
+        background:
+          radial-gradient(circle at 35% 28%, #62738a, #263242 68%),
+          #263242;
+      }
+
+      .name {
+        font-size: 13px;
+        font-weight: 820;
+      }
+
+      .time {
+        color: var(--soft);
+        font-size: 11px;
+        font-weight: 720;
+      }
+
+      .post p {
+        margin: 0;
+        color: #dce5f0;
+        font-size: 13px;
+        line-height: 1.5;
+      }
+
+      .post-actions {
+        display: flex;
+        justify-content: space-between;
+        max-width: 220px;
+        margin-top: 14px;
+        color: var(--soft);
+        font-size: 11px;
+        font-weight: 760;
+      }
+
+      .hint {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        border-bottom: 1px solid var(--line);
+        border-radius: 17px 17px 0 0;
+        background: linear-gradient(90deg, rgb(255 255 255 / 0.08), rgb(255 255 255 / 0.025));
+        padding: 11px 14px;
+        color: #eaf1fb;
+        font-size: 12px;
+        font-weight: 840;
+      }
+
+      .hint-left {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .dot {
+        width: 9px;
+        height: 9px;
+        border-radius: 999px;
+        background: var(--green);
+        box-shadow: 0 0 0 5px rgb(58 209 122 / 0.12);
+      }
+
+      .dot.amber {
+        background: var(--amber);
+        box-shadow: 0 0 0 5px rgb(245 192 68 / 0.14);
+      }
+
+      .dot.red {
+        background: var(--red);
+        box-shadow: 0 0 0 5px rgb(255 107 104 / 0.13);
+      }
+
+      .pill {
+        border: 1px solid var(--line-2);
+        border-radius: 999px;
+        background: rgb(255 255 255 / 0.07);
+        padding: 3px 9px;
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 780;
+      }
+
+      .button-small {
+        border: 1px solid rgb(91 156 255 / 0.55);
+        border-radius: 999px;
+        background: rgb(37 99 255 / 0.18);
+        padding: 4px 12px;
+        color: #b8d6ff;
+        font-size: 11px;
+        font-weight: 820;
+      }
+
+      .caption {
+        position: absolute;
+        right: 20px;
+        bottom: 18px;
+        color: var(--soft);
+        font-size: 12px;
+        font-weight: 760;
+      }
+
+      .lines {
+        display: grid;
+        gap: 8px;
+      }
+
+      .line {
+        height: 9px;
+        border-radius: 999px;
+        background: #667386;
+      }
+
+      .line.short {
+        width: 55%;
+      }
+
+      .line.mid {
+        width: 76%;
+      }
+
+      .line.long {
+        width: 94%;
+      }
+
+      .variant-a .visual-card {
+        min-height: 620px;
+      }
+
+      .variant-a .focus-post {
+        transform: translateY(-6px);
+        border-color: rgb(91 156 255 / 0.38);
+        box-shadow: 0 0 0 1px rgb(91 156 255 / 0.1), 0 30px 80px rgb(0 0 0 / 0.3);
+      }
+
+      .variant-a .reaction-strip {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-top: 16px;
+      }
+
+      .variant-a .reaction {
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: rgb(255 255 255 / 0.04);
+        padding: 10px;
+        color: var(--soft);
+        text-align: center;
+        font-size: 12px;
+        font-weight: 780;
+      }
+
+      .variant-b .visual-card,
+      .variant-c .visual-card,
+      .variant-d .visual-card,
+      .variant-e .visual-card,
+      .variant-f .visual-card,
+      .variant-g .visual-card,
+      .variant-h .visual-card,
+      .variant-i .visual-card,
+      .variant-j .visual-card {
+        min-height: 620px;
+        padding: 32px;
+      }
+
+      .signal-field {
+        position: relative;
+        min-height: 556px;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 28px;
+        background:
+          radial-gradient(circle at 34% 42%, rgb(91 156 255 / 0.18), transparent 13rem),
+          radial-gradient(circle at 64% 60%, rgb(58 209 122 / 0.1), transparent 10rem),
+          linear-gradient(135deg, rgb(255 255 255 / 0.04), transparent);
+      }
+
+      .noise-line {
+        position: absolute;
+        height: 2px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, transparent, rgb(131 144 161 / 0.32), transparent);
+        transform: rotate(var(--angle));
+      }
+
+      .noise-line:nth-child(1) { top: 18%; left: -6%; width: 72%; --angle: 14deg; }
+      .noise-line:nth-child(2) { top: 34%; right: -20%; width: 86%; --angle: -8deg; }
+      .noise-line:nth-child(3) { top: 55%; left: -18%; width: 92%; --angle: 22deg; }
+      .noise-line:nth-child(4) { top: 70%; right: -10%; width: 76%; --angle: -18deg; }
+      .noise-line:nth-child(5) { top: 45%; left: 6%; width: 42%; --angle: -28deg; }
+
+      .signal-lens {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        display: grid;
+        width: 245px;
+        height: 245px;
+        place-items: center;
+        transform: translate(-50%, -50%);
+        border: 1px solid rgb(91 156 255 / 0.48);
+        border-radius: 999px;
+        background:
+          radial-gradient(circle, rgb(91 156 255 / 0.2), transparent 62%),
+          rgb(13 17 23 / 0.72);
+        box-shadow:
+          0 0 0 18px rgb(91 156 255 / 0.045),
+          0 0 80px rgb(91 156 255 / 0.28);
+        backdrop-filter: blur(10px);
+      }
+
+      .signal-lens::before,
+      .signal-lens::after {
+        position: absolute;
+        content: "";
+        border-radius: 999px;
+      }
+
+      .signal-lens::before {
+        width: 84px;
+        height: 84px;
+        background: var(--green);
+        box-shadow:
+          0 0 0 14px rgb(58 209 122 / 0.12),
+          0 0 62px rgb(58 209 122 / 0.42);
+      }
+
+      .signal-lens::after {
+        width: 12px;
+        height: 86px;
+        transform: translate(68px, 86px) rotate(-38deg);
+        background: linear-gradient(180deg, rgb(91 156 255 / 0.72), transparent);
+      }
+
+      .tiny-context {
+        position: absolute;
+        right: 34px;
+        bottom: 34px;
+        display: flex;
+        gap: 8px;
+      }
+
+      .tiny-context span {
+        width: 42px;
+        height: 9px;
+        border-radius: 999px;
+        background: rgb(184 193 207 / 0.42);
+      }
+
+      .comb-visual {
+        position: relative;
+        min-height: 556px;
+        overflow: hidden;
+        border-radius: 28px;
+        background:
+          radial-gradient(circle at 20% 20%, rgb(255 255 255 / 0.08), transparent 16rem),
+          linear-gradient(135deg, rgb(37 99 255 / 0.12), rgb(58 209 122 / 0.045));
+      }
+
+      .strand {
+        position: absolute;
+        left: 7%;
+        width: 86%;
+        height: 68px;
+      }
+
+      .strand svg {
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+      }
+
+      .strand path {
+        fill: none;
+        stroke: rgb(131 144 161 / 0.38);
+        stroke-linecap: round;
+        stroke-width: 3;
+      }
+
+      .strand.clean path {
+        stroke: rgb(91 156 255 / 0.78);
+        stroke-width: 4;
+        filter: drop-shadow(0 0 12px rgb(91 156 255 / 0.35));
+      }
+
+      .strand:nth-child(1) { top: 80px; }
+      .strand:nth-child(2) { top: 140px; }
+      .strand:nth-child(3) { top: 205px; }
+      .strand:nth-child(4) { top: 282px; }
+      .strand:nth-child(5) { top: 350px; }
+
+      .comb-bar {
+        position: absolute;
+        top: 78px;
+        left: 50%;
+        width: 88px;
+        height: 358px;
+        transform: translateX(-50%) rotate(2deg);
+        border-radius: 24px;
+        background:
+          linear-gradient(90deg, rgb(255 255 255 / 0.15), transparent),
+          rgb(13 17 23 / 0.72);
+        box-shadow: 0 24px 70px rgb(0 0 0 / 0.34);
+        backdrop-filter: blur(8px);
+      }
+
+      .comb-bar::before {
+        position: absolute;
+        top: 28px;
+        right: 20px;
+        bottom: 28px;
+        width: 3px;
+        border-radius: 999px;
+        background: var(--blue);
+        box-shadow: 0 0 24px rgb(91 156 255 / 0.5);
+        content: "";
+      }
+
+      .comb-label {
+        position: absolute;
+        right: 34px;
+        bottom: 32px;
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 820;
+        letter-spacing: 0.04em;
+      }
+
+      .action-flow {
+        position: relative;
+        min-height: 556px;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 28px;
+        background:
+          radial-gradient(circle at 18% 48%, rgb(245 192 68 / 0.12), transparent 12rem),
+          radial-gradient(circle at 76% 45%, rgb(58 209 122 / 0.1), transparent 12rem),
+          linear-gradient(135deg, rgb(255 255 255 / 0.05), transparent);
+      }
+
+      .flow-river {
+        position: absolute;
+        inset: 95px 44px auto;
+        height: 300px;
+      }
+
+      .flow-river svg {
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+      }
+
+      .flow-river path {
+        fill: none;
+        stroke-linecap: round;
+        stroke-width: 18;
+      }
+
+      .flow-river .shadow-path {
+        stroke: rgb(91 156 255 / 0.1);
+        stroke-width: 44;
+      }
+
+      .flow-river .main-path {
+        stroke: url(#flowGradient);
+        filter: drop-shadow(0 0 22px rgb(91 156 255 / 0.28));
+      }
+
+      .flow-step {
+        position: absolute;
+        display: grid;
+        width: 112px;
+        height: 112px;
+        place-items: center;
+        border: 1px solid rgb(255 255 255 / 0.14);
+        border-radius: 999px;
+        background: rgb(13 17 23 / 0.78);
+        box-shadow: 0 18px 48px rgb(0 0 0 / 0.35);
+        color: #eff6ff;
+        font-size: 15px;
+        font-weight: 900;
+        backdrop-filter: blur(10px);
+      }
+
+      .flow-step.one { top: 92px; left: 52px; }
+      .flow-step.two { top: 226px; left: calc(50% - 56px); }
+      .flow-step.three { top: 104px; right: 52px; }
+
+      .flow-step.one::before,
+      .flow-step.two::before,
+      .flow-step.three::before {
+        position: absolute;
+        inset: 15px;
+        border-radius: inherit;
+        content: "";
+      }
+
+      .flow-step.one::before { border: 2px solid rgb(91 156 255 / 0.62); }
+      .flow-step.two::before { border: 2px solid rgb(245 192 68 / 0.62); }
+      .flow-step.three::before { border: 2px solid rgb(58 209 122 / 0.62); }
+
+      .action-caption {
+        position: absolute;
+        right: 34px;
+        bottom: 30px;
+        left: 34px;
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 800;
+        text-align: center;
+      }
+
+      .radar-visual,
+      .bridge-visual,
+      .constellation-visual,
+      .filter-visual,
+      .relay-visual,
+      .compass-visual {
+        position: relative;
+        min-height: 556px;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 28px;
+      }
+
+      .visual-kicker {
+        position: absolute;
+        z-index: 3;
+        top: 26px;
+        left: 28px;
+        color: var(--soft);
+        font-size: 12px;
+        font-weight: 860;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .radar-visual {
+        background:
+          radial-gradient(circle at 50% 52%, rgb(91 156 255 / 0.16), transparent 16rem),
+          radial-gradient(circle at 36% 30%, rgb(58 209 122 / 0.1), transparent 10rem),
+          linear-gradient(135deg, rgb(255 255 255 / 0.045), transparent);
+      }
+
+      .radar-ring {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border: 1px solid rgb(131 144 161 / 0.22);
+        border-radius: 999px;
+      }
+
+      .radar-ring.one { width: 152px; height: 152px; }
+      .radar-ring.two { width: 276px; height: 276px; }
+      .radar-ring.three { width: 408px; height: 408px; }
+
+      .radar-sweep {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 220px;
+        height: 2px;
+        transform: rotate(-24deg);
+        transform-origin: left center;
+        border-radius: 999px;
+        background: linear-gradient(90deg, var(--blue), transparent);
+        filter: drop-shadow(0 0 16px rgb(91 156 255 / 0.55));
+      }
+
+      .radar-point {
+        position: absolute;
+        width: 14px;
+        height: 14px;
+        border-radius: 999px;
+        background: var(--green);
+        box-shadow:
+          0 0 0 8px rgb(58 209 122 / 0.12),
+          0 0 28px rgb(58 209 122 / 0.35);
+      }
+
+      .radar-point.one { top: 38%; left: 58%; }
+      .radar-point.two { top: 63%; left: 35%; background: var(--amber); box-shadow: 0 0 0 8px rgb(245 192 68 / 0.12); }
+      .radar-point.three { top: 30%; left: 34%; opacity: 0.42; }
+
+      .radar-label {
+        position: absolute;
+        right: 34px;
+        bottom: 34px;
+        max-width: 210px;
+        color: var(--muted);
+        font-size: 14px;
+        font-weight: 820;
+        line-height: 1.4;
+      }
+
+      .bridge-visual {
+        background:
+          radial-gradient(circle at 22% 52%, rgb(245 192 68 / 0.12), transparent 12rem),
+          radial-gradient(circle at 82% 46%, rgb(91 156 255 / 0.13), transparent 14rem),
+          linear-gradient(135deg, rgb(255 255 255 / 0.04), transparent);
+      }
+
+      .bridge-gap {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, transparent 42%, rgb(0 0 0 / 0.25) 42% 58%, transparent 58%);
+      }
+
+      .bridge-span {
+        position: absolute;
+        top: 54%;
+        right: 20%;
+        left: 24%;
+        height: 8px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, var(--amber), var(--blue), var(--green));
+        box-shadow: 0 0 28px rgb(91 156 255 / 0.28);
+      }
+
+      .bridge-piece {
+        position: absolute;
+        width: 96px;
+        height: 56px;
+        border: 1px solid var(--line-2);
+        border-radius: 18px;
+        background: rgb(255 255 255 / 0.06);
+        box-shadow: 0 16px 42px rgb(0 0 0 / 0.2);
+      }
+
+      .bridge-piece::before,
+      .bridge-piece::after {
+        position: absolute;
+        left: 16px;
+        height: 7px;
+        border-radius: 999px;
+        background: rgb(184 193 207 / 0.36);
+        content: "";
+      }
+
+      .bridge-piece::before { top: 16px; width: 58px; }
+      .bridge-piece::after { top: 31px; width: 38px; }
+      .bridge-piece.a { top: 170px; left: 76px; transform: rotate(-8deg); }
+      .bridge-piece.b { top: 288px; left: 150px; transform: rotate(7deg); }
+      .bridge-piece.c { top: 214px; right: 100px; transform: rotate(4deg); }
+      .bridge-piece.d { top: 340px; right: 172px; transform: rotate(-6deg); }
+
+      .constellation-visual {
+        background:
+          radial-gradient(circle at 50% 50%, rgb(37 99 255 / 0.13), transparent 18rem),
+          radial-gradient(circle at 72% 28%, rgb(58 209 122 / 0.08), transparent 10rem),
+          linear-gradient(135deg, rgb(255 255 255 / 0.04), transparent);
+      }
+
+      .constellation-visual svg {
+        position: absolute;
+        inset: 38px;
+        width: calc(100% - 76px);
+        height: calc(100% - 76px);
+      }
+
+      .constellation-visual line {
+        stroke: rgb(91 156 255 / 0.42);
+        stroke-width: 2;
+      }
+
+      .star-node {
+        position: absolute;
+        width: 18px;
+        height: 18px;
+        border-radius: 999px;
+        background: var(--blue);
+        box-shadow:
+          0 0 0 9px rgb(91 156 255 / 0.11),
+          0 0 24px rgb(91 156 255 / 0.38);
+      }
+
+      .star-node.green { background: var(--green); box-shadow: 0 0 0 9px rgb(58 209 122 / 0.11); }
+      .star-node.amber { background: var(--amber); box-shadow: 0 0 0 9px rgb(245 192 68 / 0.11); }
+      .star-node.one { top: 24%; left: 26%; }
+      .star-node.two { top: 38%; left: 54%; }
+      .star-node.three { top: 58%; left: 40%; }
+      .star-node.four { top: 28%; left: 74%; }
+      .star-node.five { top: 69%; left: 70%; }
+
+      .filter-visual {
+        background:
+          radial-gradient(circle at 28% 48%, rgb(255 255 255 / 0.08), transparent 15rem),
+          radial-gradient(circle at 74% 48%, rgb(58 209 122 / 0.1), transparent 12rem),
+          linear-gradient(135deg, rgb(91 156 255 / 0.1), transparent);
+      }
+
+      .particle {
+        position: absolute;
+        width: 7px;
+        height: 7px;
+        border-radius: 999px;
+        background: rgb(184 193 207 / 0.34);
+      }
+
+      .particle.clean {
+        background: var(--green);
+        box-shadow: 0 0 0 7px rgb(58 209 122 / 0.11);
+      }
+
+      .filter-gate {
+        position: absolute;
+        top: 74px;
+        bottom: 74px;
+        left: 48%;
+        width: 74px;
+        border: 1px solid rgb(91 156 255 / 0.26);
+        border-radius: 28px;
+        background: rgb(13 17 23 / 0.74);
+        box-shadow: 0 24px 70px rgb(0 0 0 / 0.34);
+      }
+
+      .filter-gate::before {
+        position: absolute;
+        top: 28px;
+        bottom: 28px;
+        left: 50%;
+        width: 4px;
+        transform: translateX(-50%);
+        border-radius: 999px;
+        background: var(--blue);
+        box-shadow: 0 0 26px rgb(91 156 255 / 0.5);
+        content: "";
+      }
+
+      .relay-visual {
+        background:
+          radial-gradient(circle at 22% 70%, rgb(58 209 122 / 0.08), transparent 12rem),
+          radial-gradient(circle at 76% 24%, rgb(91 156 255 / 0.12), transparent 13rem),
+          linear-gradient(135deg, rgb(255 255 255 / 0.04), transparent);
+      }
+
+      .relay-node {
+        position: absolute;
+        display: grid;
+        place-items: center;
+        border: 1px solid var(--line-2);
+        border-radius: 999px;
+        background: rgb(13 17 23 / 0.76);
+        box-shadow: 0 18px 52px rgb(0 0 0 / 0.3);
+        color: var(--ink);
+        font-size: 13px;
+        font-weight: 900;
+      }
+
+      .relay-node.main {
+        top: 216px;
+        left: 70px;
+        width: 132px;
+        height: 132px;
+        border-color: rgb(91 156 255 / 0.42);
+      }
+
+      .relay-node.small { width: 74px; height: 74px; color: var(--muted); }
+      .relay-node.a { top: 118px; left: 286px; }
+      .relay-node.b { top: 278px; left: 314px; }
+      .relay-node.c { top: 382px; left: 248px; }
+      .relay-node.action { right: 52px; top: 230px; width: 112px; height: 112px; border-color: rgb(58 209 122 / 0.42); }
+
+      .relay-link {
+        position: absolute;
+        height: 3px;
+        transform-origin: left center;
+        border-radius: 999px;
+        background: linear-gradient(90deg, rgb(91 156 255 / 0.7), transparent);
+      }
+
+      .relay-link.one { top: 234px; left: 188px; width: 142px; transform: rotate(-32deg); }
+      .relay-link.two { top: 290px; left: 196px; width: 196px; transform: rotate(3deg); }
+      .relay-link.three { top: 328px; left: 194px; width: 118px; transform: rotate(44deg); }
+      .relay-link.four { top: 320px; left: 386px; width: 154px; transform: rotate(-13deg); background: linear-gradient(90deg, rgb(58 209 122 / 0.7), transparent); }
+
+      .compass-visual {
+        background:
+          radial-gradient(circle at 50% 50%, rgb(91 156 255 / 0.14), transparent 15rem),
+          radial-gradient(circle at 50% 50%, rgb(245 192 68 / 0.08), transparent 23rem),
+          linear-gradient(135deg, rgb(255 255 255 / 0.04), transparent);
+      }
+
+      .compass-dial {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 365px;
+        height: 365px;
+        transform: translate(-50%, -50%);
+        border: 1px solid rgb(131 144 161 / 0.28);
+        border-radius: 999px;
+        background: rgb(13 17 23 / 0.42);
+        box-shadow:
+          inset 0 0 0 34px rgb(255 255 255 / 0.025),
+          0 30px 80px rgb(0 0 0 / 0.24);
+      }
+
+      .compass-dial::before,
+      .compass-dial::after {
+        position: absolute;
+        inset: 76px;
+        border: 1px solid rgb(131 144 161 / 0.2);
+        border-radius: inherit;
+        content: "";
+      }
+
+      .compass-dial::after {
+        inset: 138px;
+      }
+
+      .compass-needle {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 9px;
+        height: 158px;
+        transform: translate(-50%, -90%) rotate(34deg);
+        transform-origin: center 90%;
+        border-radius: 999px;
+        background: linear-gradient(180deg, var(--blue), var(--green));
+        box-shadow: 0 0 24px rgb(91 156 255 / 0.4);
+      }
+
+      .compass-center {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 46px;
+        height: 46px;
+        transform: translate(-50%, -50%);
+        border: 1px solid rgb(255 255 255 / 0.2);
+        border-radius: 999px;
+        background: var(--panel-3);
+      }
+
+      .compass-mark {
+        position: absolute;
+        color: var(--soft);
+        font-size: 12px;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+      }
+
+      .compass-mark.n { top: 82px; left: 50%; transform: translateX(-50%); }
+      .compass-mark.e { top: 50%; right: 92px; transform: translateY(-50%); }
+      .compass-mark.s { bottom: 82px; left: 50%; transform: translateX(-50%); }
+      .compass-mark.w { top: 50%; left: 92px; transform: translateY(-50%); }
+
+      .switcher {
+        position: fixed;
+        z-index: 60;
+        right: 50%;
+        bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transform: translateX(50%);
+        border: 1px solid var(--line-2);
+        border-radius: 999px;
+        background: rgb(13 17 23 / 0.9);
+        padding: 8px;
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(18px);
+      }
+
+      .switcher button,
+      .switcher a {
+        border: 0;
+        border-radius: 999px;
+        background: transparent;
+        padding: 8px 12px;
+        color: var(--muted);
+        font: inherit;
+        font-size: 13px;
+        font-weight: 820;
+        cursor: pointer;
+      }
+
+      .switcher a.active {
+        background: var(--accent, #2563ff);
+        color: #fff;
+      }
+
+      .switcher .label {
+        padding: 0 8px;
+        color: var(--soft);
+        font-size: 12px;
+        font-weight: 760;
+      }
+
+      @media (max-width: 960px) {
+        .variant {
+          padding: 26px 16px 90px;
+        }
+
+        .prototype-note {
+          display: none;
+        }
+
+        .topbar {
+          margin-bottom: 36px;
+        }
+
+        .nav {
+          display: none;
+        }
+
+        .hero-grid,
+        .browser-content,
+        .system-map {
+          grid-template-columns: 1fr;
+        }
+
+        .map-node.primary {
+          grid-column: auto;
+        }
+
+        .brand img {
+          width: 132px;
+        }
+
+        h1 {
+          font-size: clamp(50px, 15vw, 72px);
+        }
+
+        .visual-card {
+          min-height: 0 !important;
+        }
+
+        .clarified {
+          position: static;
+          width: auto;
+          margin-top: 16px;
+        }
+
+        .switcher {
+          width: calc(100% - 24px);
+          overflow-x: auto;
+          justify-content: flex-start;
+        }
+
+        .signal-lens {
+          width: 190px;
+          height: 190px;
+        }
+
+        .flow-step {
+          width: 86px;
+          height: 86px;
+          font-size: 13px;
+        }
+
+        .flow-step.one { left: 22px; }
+        .flow-step.three { right: 22px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="prototype-note">Prototype: first-screen directions for Truly</div>
+
+    <section class="variant variant-a active" data-name="Pause moment">
+      <div class="shell">
+        <header class="topbar">
+          <a class="brand" href="../index.html">
+            <img src="../assets/truly-readme-lockup.svg" alt="Truly">
+          </a>
+          <nav class="nav" aria-label="Prototype navigation">
+            <span>Preview</span><span>Roadmap</span><span>Feedback</span>
+          </nav>
+        </header>
+        <div class="hero-grid">
+          <div class="copy">
+            <div class="eyebrow">Early preview</div>
+            <h1>Pause before the feed pulls you in.</h1>
+            <p class="lead">A calmer layer before you react, share, or reply.</p>
+            <div class="actions">
+              <a class="button primary" href="https://github.com/devjoe/truly/releases">Try the preview</a>
+              <a class="button" href="../feedback/">Send feedback</a>
+            </div>
+          </div>
+          <div class="visual-card">
+            <div class="mini-feed">
+              <article class="post dim">
+                <div class="hint"><span class="hint-left"><span class="dot"></span> Personal note</span><span>analysis ready</span></div>
+                <div class="post-head"><span class="avatar"></span><div><div class="name">Neighborhood Notes</div><div class="time">12 min · Public</div></div></div>
+                <p>Weekend market moved indoors. Booths and hours stay the same.</p>
+              </article>
+              <article class="post focus-post">
+                <div class="hint"><span class="hint-left"><span class="dot amber"></span> Needs context</span><button class="button-small">Details</button></div>
+                <div class="post-head"><span class="avatar"></span><div><div class="name">Shared Update</div><div class="time">8 min · Public</div></div></div>
+                <p>A cropped screenshot is moving fast. The claim sounds urgent, but the source, date, and surrounding context are missing.</p>
+                <div class="reaction-strip">
+                  <div class="reaction">React</div>
+                  <div class="reaction">Share</div>
+                  <div class="reaction">Reply</div>
+                </div>
+              </article>
+              <article class="post dim">
+                <div class="hint"><span class="hint-left"><span class="dot red"></span> Check source</span><span>analysis ready</span></div>
+                <div class="post-head"><span class="avatar"></span><div><div class="name">City Watch</div><div class="time">4 min · Public</div></div></div>
+                <p>Before reposting this policy claim, compare it with the original notice.</p>
+              </article>
+            </div>
+            <div class="caption">Reading hints before reaction</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="variant variant-b" data-name="Signal in noise">
+      <div class="shell">
+        <header class="topbar">
+          <a class="brand" href="../index.html">
+            <img src="../assets/truly-readme-lockup.svg" alt="Truly">
+          </a>
+          <nav class="nav"><span>Preview</span><span>Roadmap</span><span>Feedback</span></nav>
+        </header>
+        <div class="hero-grid">
+          <div class="copy">
+            <div class="eyebrow">Early preview</div>
+            <h1>See the signal before the noise wins.</h1>
+            <p class="lead">A small local signal helps you pause before a post becomes a reaction.</p>
+            <div class="actions">
+              <a class="button primary" href="https://github.com/devjoe/truly/releases">Try the preview</a>
+              <a class="button" href="../feedback/">Send feedback</a>
+            </div>
+          </div>
+          <div class="visual-card">
+            <div class="signal-field" aria-label="Abstract signal emerging from noisy information lines">
+              <span class="noise-line"></span>
+              <span class="noise-line"></span>
+              <span class="noise-line"></span>
+              <span class="noise-line"></span>
+              <span class="noise-line"></span>
+              <div class="signal-lens" aria-hidden="true"></div>
+              <div class="tiny-context" aria-hidden="true">
+                <span></span><span></span><span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="variant variant-c" data-name="Comb lines">
+      <div class="shell">
+        <header class="topbar">
+          <a class="brand" href="../index.html">
+            <img src="../assets/truly-readme-lockup.svg" alt="Truly">
+          </a>
+          <nav class="nav"><span>Preview</span><span>Roadmap</span><span>Feedback</span></nav>
+        </header>
+        <div class="hero-grid">
+          <div class="copy">
+            <div class="eyebrow">Early preview</div>
+            <h1>Comb tangled claims.</h1>
+            <p class="lead">Separate claim, context, and next question.</p>
+            <div class="actions">
+              <a class="button primary" href="https://github.com/devjoe/truly/releases">Try the preview</a>
+              <a class="button" href="../feedback/">Send feedback</a>
+            </div>
+          </div>
+          <div class="visual-card">
+            <div class="comb-visual" aria-label="Abstract tangled lines being combed into clearer strands">
+              <div class="strand">
+                <svg viewBox="0 0 520 68" aria-hidden="true"><path d="M4 36 C80 8 130 70 204 34 S340 12 516 34" /></svg>
+              </div>
+              <div class="strand">
+                <svg viewBox="0 0 520 68" aria-hidden="true"><path d="M6 30 C86 72 136 0 212 38 S366 68 514 26" /></svg>
+              </div>
+              <div class="strand clean">
+                <svg viewBox="0 0 520 68" aria-hidden="true"><path d="M8 34 C116 34 176 34 258 34 S392 34 514 34" /></svg>
+              </div>
+              <div class="strand">
+                <svg viewBox="0 0 520 68" aria-hidden="true"><path d="M10 36 C78 18 128 54 188 32 S338 58 512 28" /></svg>
+              </div>
+              <div class="strand clean">
+                <svg viewBox="0 0 520 68" aria-hidden="true"><path d="M10 34 C132 34 190 34 268 34 S380 34 512 34" /></svg>
+              </div>
+              <div class="comb-bar" aria-hidden="true"></div>
+              <div class="comb-label">梳理</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="variant variant-d" data-name="Clarify to act">
+      <div class="shell">
+        <header class="topbar">
+          <a class="brand" href="../index.html">
+            <img src="../assets/truly-readme-lockup.svg" alt="Truly">
+          </a>
+          <nav class="nav"><span>Preview</span><span>Roadmap</span><span>Feedback</span></nav>
+        </header>
+        <div class="hero-grid">
+          <div class="copy">
+            <div class="eyebrow">Early preview</div>
+            <h1>Move from reaction to context.</h1>
+            <p class="lead">The long-term frame is simple: clarify, verify, then choose a useful action.</p>
+            <div class="actions">
+              <a class="button primary" href="https://github.com/devjoe/truly/releases">Try the preview</a>
+              <a class="button" href="../feedback/">Send feedback</a>
+            </div>
+          </div>
+          <div class="visual-card">
+            <div class="action-flow" aria-label="Abstract flow from clarify to verify to act">
+              <div class="flow-river" aria-hidden="true">
+                <svg viewBox="0 0 560 300">
+                  <defs>
+                    <linearGradient id="flowGradient" x1="0%" x2="100%" y1="0%" y2="0%">
+                      <stop offset="0%" stop-color="#5b9cff" />
+                      <stop offset="50%" stop-color="#f5c044" />
+                      <stop offset="100%" stop-color="#3ad17a" />
+                    </linearGradient>
+                  </defs>
+                  <path class="shadow-path" d="M28 70 C170 18 214 260 340 210 C424 178 424 56 532 92" />
+                  <path class="main-path" d="M28 70 C170 18 214 260 340 210 C424 178 424 56 532 92" />
+                </svg>
+              </div>
+              <div class="flow-step one">Clarify</div>
+              <div class="flow-step two">Verify</div>
+              <div class="flow-step three">Act</div>
+              <div class="action-caption">A calmer path through noisy information.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="variant variant-e" data-name="Quiet radar">
+      <div class="shell">
+        <header class="topbar">
+          <a class="brand" href="../index.html">
+            <img src="../assets/truly-readme-lockup.svg" alt="Truly">
+          </a>
+          <nav class="nav"><span>Preview</span><span>Roadmap</span><span>Feedback</span></nav>
+        </header>
+        <div class="hero-grid">
+          <div class="copy">
+            <div class="eyebrow">Early preview</div>
+            <h1>Know where to look first.</h1>
+            <p class="lead">A quiet signal for the part of a post that deserves attention.</p>
+            <div class="actions">
+              <a class="button primary" href="https://github.com/devjoe/truly/releases">Try the preview</a>
+              <a class="button" href="../feedback/">Send feedback</a>
+            </div>
+          </div>
+          <div class="visual-card">
+            <div class="radar-visual" aria-label="Abstract radar showing the important reading signal">
+              <div class="visual-kicker">Signal map</div>
+              <span class="radar-ring one"></span>
+              <span class="radar-ring two"></span>
+              <span class="radar-ring three"></span>
+              <span class="radar-sweep"></span>
+              <span class="radar-point one"></span>
+              <span class="radar-point two"></span>
+              <span class="radar-point three"></span>
+              <div class="radar-label">A small cue before the feed becomes momentum.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="variant variant-f" data-name="Evidence bridge">
+      <div class="shell">
+        <header class="topbar">
+          <a class="brand" href="../index.html">
+            <img src="../assets/truly-readme-lockup.svg" alt="Truly">
+          </a>
+          <nav class="nav"><span>Preview</span><span>Roadmap</span><span>Feedback</span></nav>
+        </header>
+        <div class="hero-grid">
+          <div class="copy">
+            <div class="eyebrow">Early preview</div>
+            <h1>Cross from claim to context.</h1>
+            <p class="lead">Truly builds a bridge between what spreads and what should be checked.</p>
+            <div class="actions">
+              <a class="button primary" href="https://github.com/devjoe/truly/releases">Try the preview</a>
+              <a class="button" href="../feedback/">Send feedback</a>
+            </div>
+          </div>
+          <div class="visual-card">
+            <div class="bridge-visual" aria-label="Abstract bridge from a claim to context">
+              <div class="visual-kicker">Claim to context</div>
+              <div class="bridge-gap"></div>
+              <div class="bridge-span"></div>
+              <span class="bridge-piece a"></span>
+              <span class="bridge-piece b"></span>
+              <span class="bridge-piece c"></span>
+              <span class="bridge-piece d"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="variant variant-g" data-name="Constellation">
+      <div class="shell">
+        <header class="topbar">
+          <a class="brand" href="../index.html">
+            <img src="../assets/truly-readme-lockup.svg" alt="Truly">
+          </a>
+          <nav class="nav"><span>Preview</span><span>Roadmap</span><span>Feedback</span></nav>
+        </header>
+        <div class="hero-grid">
+          <div class="copy">
+            <div class="eyebrow">Early preview</div>
+            <h1>Connect the parts that matter.</h1>
+            <p class="lead">Claims, sources, questions, and next steps become easier to see together.</p>
+            <div class="actions">
+              <a class="button primary" href="https://github.com/devjoe/truly/releases">Try the preview</a>
+              <a class="button" href="../feedback/">Send feedback</a>
+            </div>
+          </div>
+          <div class="visual-card">
+            <div class="constellation-visual" aria-label="Abstract constellation connecting reading context">
+              <div class="visual-kicker">Context field</div>
+              <svg viewBox="0 0 520 420" aria-hidden="true">
+                <line x1="128" y1="92" x2="292" y2="150"></line>
+                <line x1="292" y1="150" x2="208" y2="280"></line>
+                <line x1="292" y1="150" x2="410" y2="108"></line>
+                <line x1="208" y1="280" x2="392" y2="324"></line>
+                <line x1="410" y1="108" x2="392" y2="324"></line>
+              </svg>
+              <span class="star-node one"></span>
+              <span class="star-node two green"></span>
+              <span class="star-node three"></span>
+              <span class="star-node four amber"></span>
+              <span class="star-node five"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="variant variant-h" data-name="Noise filter">
+      <div class="shell">
+        <header class="topbar">
+          <a class="brand" href="../index.html">
+            <img src="../assets/truly-readme-lockup.svg" alt="Truly">
+          </a>
+          <nav class="nav"><span>Preview</span><span>Roadmap</span><span>Feedback</span></nav>
+        </header>
+        <div class="hero-grid">
+          <div class="copy">
+            <div class="eyebrow">Early preview</div>
+            <h1>Let the noise fall away.</h1>
+            <p class="lead">Keep only the signals that help you read with care.</p>
+            <div class="actions">
+              <a class="button primary" href="https://github.com/devjoe/truly/releases">Try the preview</a>
+              <a class="button" href="../feedback/">Send feedback</a>
+            </div>
+          </div>
+          <div class="visual-card">
+            <div class="filter-visual" aria-label="Abstract filter separating noise from useful signals">
+              <div class="visual-kicker">Filter layer</div>
+              <span class="particle" style="top: 18%; left: 14%"></span>
+              <span class="particle" style="top: 25%; left: 30%"></span>
+              <span class="particle" style="top: 37%; left: 18%"></span>
+              <span class="particle" style="top: 45%; left: 34%"></span>
+              <span class="particle" style="top: 56%; left: 12%"></span>
+              <span class="particle" style="top: 68%; left: 28%"></span>
+              <span class="particle" style="top: 76%; left: 18%"></span>
+              <span class="particle clean" style="top: 31%; left: 68%"></span>
+              <span class="particle clean" style="top: 52%; left: 78%"></span>
+              <span class="particle clean" style="top: 70%; left: 66%"></span>
+              <div class="filter-gate"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="variant variant-i" data-name="Civic relay">
+      <div class="shell">
+        <header class="topbar">
+          <a class="brand" href="../index.html">
+            <img src="../assets/truly-readme-lockup.svg" alt="Truly">
+          </a>
+          <nav class="nav"><span>Preview</span><span>Roadmap</span><span>Feedback</span></nav>
+        </header>
+        <div class="hero-grid">
+          <div class="copy">
+            <div class="eyebrow">Early preview</div>
+            <h1>Make checking reusable.</h1>
+            <p class="lead">A future path from individual reading to shared civic context.</p>
+            <div class="actions">
+              <a class="button primary" href="https://github.com/devjoe/truly/releases">Try the preview</a>
+              <a class="button" href="../feedback/">Send feedback</a>
+            </div>
+          </div>
+          <div class="visual-card">
+            <div class="relay-visual" aria-label="Abstract relay from reading to shared action">
+              <div class="visual-kicker">Shared context</div>
+              <span class="relay-link one"></span>
+              <span class="relay-link two"></span>
+              <span class="relay-link three"></span>
+              <span class="relay-link four"></span>
+              <div class="relay-node main">Read</div>
+              <div class="relay-node small a">Check</div>
+              <div class="relay-node small b">Review</div>
+              <div class="relay-node small c">Share</div>
+              <div class="relay-node action">Act</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="variant variant-j" data-name="Reading compass">
+      <div class="shell">
+        <header class="topbar">
+          <a class="brand" href="../index.html">
+            <img src="../assets/truly-readme-lockup.svg" alt="Truly">
+          </a>
+          <nav class="nav"><span>Preview</span><span>Roadmap</span><span>Feedback</span></nav>
+        </header>
+        <div class="hero-grid">
+          <div class="copy">
+            <div class="eyebrow">Early preview</div>
+            <h1>Orient before you react.</h1>
+            <p class="lead">A compass for noisy information, not an autopilot.</p>
+            <div class="actions">
+              <a class="button primary" href="https://github.com/devjoe/truly/releases">Try the preview</a>
+              <a class="button" href="../feedback/">Send feedback</a>
+            </div>
+          </div>
+          <div class="visual-card">
+            <div class="compass-visual" aria-label="Abstract compass for reading orientation">
+              <div class="visual-kicker">Reading compass</div>
+              <div class="compass-dial"></div>
+              <div class="compass-needle"></div>
+              <div class="compass-center"></div>
+              <span class="compass-mark n">CHECK</span>
+              <span class="compass-mark e">ASK</span>
+              <span class="compass-mark s">WAIT</span>
+              <span class="compass-mark w">READ</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <nav class="switcher" aria-label="Hero variant switcher">
+      <button type="button" data-step="-1">←</button>
+      <span class="label">Variant</span>
+      <a href="?variant=a" data-variant="a" class="active">A</a>
+      <a href="?variant=b" data-variant="b">B</a>
+      <a href="?variant=c" data-variant="c">C</a>
+      <a href="?variant=d" data-variant="d">D</a>
+      <a href="?variant=e" data-variant="e">E</a>
+      <a href="?variant=f" data-variant="f">F</a>
+      <a href="?variant=g" data-variant="g">G</a>
+      <a href="?variant=h" data-variant="h">H</a>
+      <a href="?variant=i" data-variant="i">I</a>
+      <a href="?variant=j" data-variant="j">J</a>
+      <button type="button" data-step="1">→</button>
+    </nav>
+
+    <script>
+      const variants = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"];
+      const params = new URLSearchParams(location.search);
+      const initial = variants.includes(params.get("variant")) ? params.get("variant") : "a";
+
+      function setVariant(key) {
+        const index = variants.indexOf(key);
+        const next = index === -1 ? "a" : key;
+        document.querySelectorAll(".variant").forEach((node, i) => {
+          node.classList.toggle("active", variants[i] === next);
+        });
+        document.querySelectorAll("[data-variant]").forEach((node) => {
+          node.classList.toggle("active", node.dataset.variant === next);
+        });
+        const active = document.querySelector(".variant.active");
+        document.querySelector(".switcher .label").textContent =
+          `${next.toUpperCase()} — ${active?.dataset.name ?? "Variant"}`;
+        const url = new URL(location.href);
+        url.searchParams.set("variant", next);
+        history.replaceState(null, "", url);
+      }
+
+      document.querySelectorAll("[data-variant]").forEach((node) => {
+        node.addEventListener("click", (event) => {
+          event.preventDefault();
+          setVariant(node.dataset.variant);
+        });
+      });
+
+      document.querySelectorAll("[data-step]").forEach((node) => {
+        node.addEventListener("click", () => {
+          const current = variants.findIndex((key) =>
+            document.querySelector(`[data-variant="${key}"]`)?.classList.contains("active")
+          );
+          const step = Number(node.dataset.step);
+          setVariant(variants[(current + step + variants.length) % variants.length]);
+        });
+      });
+
+      window.addEventListener("keydown", (event) => {
+        if (["INPUT", "TEXTAREA"].includes(document.activeElement?.tagName)) return;
+        if (event.key === "ArrowLeft") document.querySelector('[data-step="-1"]').click();
+        if (event.key === "ArrowRight") document.querySelector('[data-step="1"]').click();
+      });
+
+      setVariant(initial);
+    </script>
+  </body>
+</html>
