@@ -241,7 +241,9 @@
 
       .hero > *,
       .preview-layout > *,
-      .roadmap-shell > * {
+      .roadmap-layout > *,
+      .roadmap-figure > *,
+      .feedback-band > * {
         min-width: 0;
       }
 
@@ -251,8 +253,10 @@
 
       .hero h1 {
         margin-bottom: 22px;
-        font-size: clamp(40px, 4vw, 54px);
-        line-height: 1.05;
+        max-width: 11.2ch;
+        font-size: clamp(32px, 4.5vw, 54px);
+        font-weight: 690;
+        line-height: 1.1;
         letter-spacing: 0;
       }
 
@@ -267,6 +271,7 @@
         min-height: 46px;
         align-items: center;
         justify-content: center;
+        gap: 8px;
         padding: 0 18px;
         border: 1px solid var(--border-strong);
         border-radius: 999px;
@@ -286,6 +291,13 @@
         border-color: var(--accent);
         background: var(--accent);
         color: white;
+      }
+
+      .button svg {
+        width: 16px;
+        height: 16px;
+        flex: 0 0 auto;
+        stroke-width: 2.25;
       }
 
       .concept-panel {
@@ -554,10 +566,32 @@
         font-size: 19px;
       }
 
+      .roadmap-layout {
+        display: grid;
+        grid-template-columns: minmax(360px, 0.92fr) minmax(0, 1.08fr);
+        gap: 42px;
+        align-items: center;
+      }
+
+      .roadmap-layout .section-heading {
+        margin-bottom: 0;
+      }
+
+      .roadmap-kicker {
+        display: block;
+        margin-bottom: 14px;
+        color: var(--accent);
+        font-size: 13px;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
       .preview-layout {
         display: grid;
-        grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
-        gap: 28px;
+        grid-template-columns: minmax(0, 960px);
+        justify-content: center;
+        gap: 18px;
         align-items: start;
       }
 
@@ -567,30 +601,6 @@
         border-radius: 24px;
         background: var(--surface);
         box-shadow: var(--shadow);
-      }
-
-      .demo-chrome {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 14px;
-        padding: 14px 16px;
-        border-bottom: 1px solid var(--border);
-        color: var(--soft);
-        font-size: 13px;
-        font-weight: 820;
-      }
-
-      .window-dots {
-        display: flex;
-        gap: 7px;
-      }
-
-      .window-dots span {
-        width: 10px;
-        height: 10px;
-        border-radius: 999px;
-        background: var(--border-strong);
       }
 
       .demo-media {
@@ -606,155 +616,257 @@
         background: #0f1720;
       }
 
-      .demo-badge {
-        position: absolute;
-        top: 12px;
-        left: 12px;
-        padding: 5px 9px;
-        border: 1px solid rgb(255 255 255 / 0.16);
-        border-radius: 999px;
-        background: rgb(10 15 24 / 0.7);
-        color: rgb(255 255 255 / 0.78);
-        font-size: 11px;
-        font-weight: 780;
-        letter-spacing: 0.02em;
-        pointer-events: none;
-      }
-
       .caption {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
         margin: 0;
-        padding: 13px 16px 16px;
+        padding: 16px 18px 18px;
         color: var(--soft);
         font-size: 13px;
         font-weight: 720;
+        line-height: 1.38;
       }
 
-      .feature-list {
-        display: grid;
-        gap: 14px;
-      }
-
-      .feature-card {
-        border: 1px solid var(--border);
-        border-radius: 18px;
-        background: var(--surface);
-        padding: 22px;
-        box-shadow: 0 18px 50px rgb(15 23 42 / 0.06);
-      }
-
-      .feature-card h3 {
-        margin-bottom: 8px;
-        font-size: 22px;
-        line-height: 1.15;
-      }
-
-      .feature-card p {
-        margin-bottom: 0;
-        color: var(--muted);
-      }
-
-      .trust-strip {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 12px;
-        margin-top: 18px;
+      .caption strong {
+        display: block;
+        margin-bottom: 3px;
+        color: var(--ink);
+        font-size: 14px;
+        font-weight: 880;
       }
 
       .preview-actions {
         display: flex;
         flex-wrap: wrap;
+        justify-content: center;
         gap: 12px;
-        margin-top: 18px;
+        margin-top: 0;
       }
 
-      .trust-item {
-        border: 1px solid var(--border);
-        border-radius: 16px;
-        background: var(--surface-soft);
-        padding: 16px;
-        color: var(--muted);
-        font-size: 14px;
+      .roadmap-figure {
+        position: relative;
+        width: min(100%, 660px);
+        justify-self: end;
+        margin: 0;
       }
 
-      .trust-item strong {
-        display: block;
-        margin-bottom: 5px;
-        color: var(--ink);
-        font-size: 15px;
-      }
-
-      .roadmap-shell {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr) minmax(280px, 0.42fr);
-        gap: 24px;
-        align-items: start;
-      }
-
-      .timeline {
-        display: grid;
-        gap: 12px;
-        border: 1px solid var(--border);
-        border-radius: 22px;
-        background: var(--surface);
-        padding: 28px;
-        box-shadow: 0 18px 50px rgb(15 23 42 / 0.06);
-      }
-
-      .timeline-row {
-        display: grid;
-        grid-template-columns: 78px 1fr;
-        gap: 14px;
-        align-items: start;
-        padding: 18px 0;
-        border-top: 1px solid var(--border);
-      }
-
-      .timeline-row:first-child {
-        border-top: 0;
-        padding-top: 0;
-      }
-
-      .phase {
-        color: var(--accent);
-        font-size: 14px;
-        font-weight: 900;
-        letter-spacing: 0.03em;
-        text-transform: uppercase;
-      }
-
-      .timeline-row h3 {
-        margin-bottom: 6px;
-        font-size: 21px;
-      }
-
-      .timeline-row p {
-        margin-bottom: 0;
-        color: var(--muted);
-      }
-
-      .cta-card {
-        border: 1px solid var(--border);
-        border-radius: 22px;
-        background:
-          radial-gradient(circle at top right, rgb(37 99 255 / 0.14), transparent 14rem),
-          var(--surface);
-        padding: 26px;
+      .roadmap-stage-map {
+        position: relative;
+        min-height: 292px;
+        overflow: hidden;
+        border: 1px solid rgb(148 163 184 / 0.25);
+        border-radius: 28px;
+        background: #07111f;
         box-shadow: var(--shadow);
+        isolation: isolate;
       }
 
-      .cta-card h3 {
-        margin-bottom: 10px;
-        font-size: 28px;
+      .roadmap-stage-map::after {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        background:
+          linear-gradient(180deg, rgb(6 13 24 / 0.12), rgb(6 13 24 / 0.7)),
+          radial-gradient(circle at 50% 45%, transparent 0 14rem, rgb(6 13 24 / 0.38) 32rem);
+        content: "";
+        pointer-events: none;
+      }
+
+      .roadmap-flow-image {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.5;
+      }
+
+      .roadmap-node-track {
+        position: relative;
+        z-index: 3;
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0;
+        align-items: center;
+        min-height: 292px;
+        margin: 0;
+        padding: 46px 34px 38px;
+        list-style: none;
+      }
+
+      .roadmap-node-track::before {
+        position: absolute;
+        top: calc(50% - 28px);
+        right: 108px;
+        left: 108px;
+        z-index: -1;
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          rgb(96 165 250 / 0),
+          rgb(96 165 250 / 0.54) 16%,
+          rgb(45 212 191 / 0.54) 84%,
+          rgb(45 212 191 / 0)
+        );
+        box-shadow: 0 0 12px rgb(37 99 255 / 0.2);
+        content: "";
+      }
+
+      .roadmap-node-card {
+        position: relative;
+        display: grid;
+        justify-items: center;
+        gap: 12px;
+        min-width: 0;
+        text-align: center;
+      }
+
+      .roadmap-node-card:not(.is-active) {
+        opacity: 0.76;
+      }
+
+      .roadmap-node-visual {
+        position: relative;
+        display: grid;
+        place-items: center;
+        width: 104px;
+        aspect-ratio: 1;
+        overflow: hidden;
+        border: 1px solid rgb(148 197 253 / 0.2);
+        border-radius: 999px;
+        background:
+          radial-gradient(circle at 50% 42%, rgb(37 99 255 / 0.16), transparent 52%),
+          rgb(8 17 31 / 0.68);
+        color: rgb(219 234 254 / 0.9);
+        box-shadow:
+          inset 0 1px 0 rgb(255 255 255 / 0.09),
+          0 0 0 7px rgb(8 17 31 / 0.28),
+          0 18px 36px rgb(0 0 0 / 0.24),
+          0 0 26px rgb(37 99 255 / 0.13);
+        backdrop-filter: blur(13px);
+      }
+
+      .roadmap-node-card.is-active .roadmap-node-visual {
+        border-color: rgb(147 197 253 / 0.42);
+        box-shadow:
+          inset 0 1px 0 rgb(255 255 255 / 0.12),
+          0 0 0 7px rgb(37 99 255 / 0.18),
+          0 0 0 11px rgb(45 212 191 / 0.08),
+          0 20px 42px rgb(0 0 0 / 0.28),
+          0 0 34px rgb(45 212 191 / 0.2);
+      }
+
+      .roadmap-node-visual svg {
+        position: relative;
+        z-index: 1;
+        width: 46px;
+        height: 46px;
+      }
+
+      .roadmap-node-visual img {
+        position: relative;
+        z-index: 1;
+        width: var(--roadmap-node-image-size, 104px);
+        height: var(--roadmap-node-image-size, 104px);
+        border-radius: 999px;
+        display: block;
+        filter: brightness(1.13) saturate(1.12) contrast(1.08);
+        object-fit: contain;
+        transform: translate(
+          var(--roadmap-node-image-x, 0),
+          var(--roadmap-node-image-y, 0)
+        );
+      }
+
+      .roadmap-node-card.node-browser {
+        --roadmap-node-image-size: 100px;
+        --roadmap-node-image-x: -2px;
+        --roadmap-node-image-y: -8px;
+      }
+
+      .roadmap-node-card.node-mobile {
+        --roadmap-node-image-size: 95px;
+        --roadmap-node-image-x: 7px;
+        --roadmap-node-image-y: -3px;
+      }
+
+      .roadmap-node-card.node-desktop {
+        --roadmap-node-image-size: 100px;
+        --roadmap-node-image-x: 0;
+        --roadmap-node-image-y: 8px;
+      }
+
+      .roadmap-node-card.node-community {
+        --roadmap-node-image-size: 90px;
+        --roadmap-node-image-x: 4px;
+        --roadmap-node-image-y: 4px;
+      }
+
+      .roadmap-node-copy {
+        display: grid;
+        gap: 4px;
+        justify-items: center;
+        min-height: 42px;
+      }
+
+      .roadmap-node-step {
+        color: rgb(147 197 253 / 0.74);
+        font-size: 10px;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+      }
+
+      .roadmap-node-card strong {
+        color: rgb(241 247 255 / 0.94);
+        font-size: 14px;
         line-height: 1.12;
       }
 
-      .cta-card p {
-        color: var(--muted);
+      .roadmap-node-status {
+        position: absolute;
+        top: -10px;
+        left: 50%;
+        z-index: 4;
+        transform: translateX(-50%);
+        border: 1px solid rgb(45 212 191 / 0.34);
+        border-radius: 999px;
+        background: rgb(6 16 30 / 0.86);
+        box-shadow: 0 0 18px rgb(45 212 191 / 0.14);
+        color: rgb(191 244 238 / 0.96);
+        font-size: 9px;
+        font-weight: 900;
+        letter-spacing: 0.1em;
+        line-height: 1;
+        padding: 5px 8px;
+        text-transform: uppercase;
       }
 
-      .cta-card .button {
-        width: 100%;
-        margin-top: 10px;
+      .feedback-band {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 24px;
+        align-items: center;
+        margin: 34px auto 0;
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        background:
+          radial-gradient(circle at top right, rgb(37 99 255 / 0.08), transparent 15rem),
+          var(--surface);
+        padding: 24px 26px;
+        box-shadow: 0 18px 54px rgb(15 23 42 / 0.08);
+      }
+
+      .feedback-band h2 {
+        margin-bottom: 7px;
+        font-size: 30px;
+        line-height: 1.12;
+      }
+
+      .feedback-band p {
+        max-width: 65ch;
+        margin-bottom: 0;
+        color: var(--muted);
       }
 
       .footer {
@@ -768,11 +880,36 @@
         font-size: 14px;
       }
 
+      .footer-identity {
+        display: inline-flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+        min-width: 0;
+      }
+
+      .footer-origin {
+        display: inline-flex;
+        align-items: center;
+        color: color-mix(in srgb, var(--muted) 86%, var(--soft));
+        font-size: 12px;
+        font-weight: 620;
+      }
+
       .footer-links {
         display: flex;
         flex-wrap: wrap;
         gap: 14px;
-        font-weight: 780;
+        font-weight: 680;
+      }
+
+      .footer-links a {
+        color: var(--soft);
+      }
+
+      .footer-links .footer-contact {
+        color: color-mix(in srgb, var(--soft) 82%, var(--muted));
+        font-weight: 620;
       }
 
       @media (max-width: 960px) {
@@ -784,16 +921,28 @@
 
         .hero,
         .preview-layout,
-        .roadmap-shell {
+        .roadmap-layout,
+        .feedback-band {
           grid-template-columns: 1fr;
+        }
+
+        .roadmap-figure {
+          justify-self: stretch;
+          margin: 0 auto;
+        }
+
+        .roadmap-stage-map,
+        .roadmap-node-track {
+          min-height: 390px;
+        }
+
+        .roadmap-node-track {
+          padding-right: 24px;
+          padding-left: 24px;
         }
 
         .hero {
           min-height: 0;
-        }
-
-        .trust-strip {
-          grid-template-columns: 1fr;
         }
 
         .language-switch {
@@ -828,13 +977,14 @@
         .hero-lead,
         .concept-panel,
         .preview-layout,
-        .roadmap-shell {
+        .roadmap-figure,
+        .feedback-band {
           max-width: 100%;
         }
 
         .hero h1 {
           font-size: 40px;
-          line-height: 1.04;
+          line-height: 1.1;
           overflow-wrap: break-word;
         }
 
@@ -878,15 +1028,119 @@
           width: 100%;
         }
 
-        .timeline,
-        .feature-card,
-        .cta-card {
+        .feedback-band {
           padding: 20px;
         }
 
-        .timeline-row {
+        .footer-links .footer-contact {
+          flex-basis: 100%;
+        }
+
+        .caption {
           grid-template-columns: 1fr;
-          gap: 6px;
+          padding: 16px 18px 18px;
+        }
+
+        .roadmap-stage-map,
+        .roadmap-node-track {
+          min-height: 0;
+        }
+
+        .roadmap-stage-map {
+          border-radius: 22px;
+        }
+
+        .roadmap-flow-image {
+          opacity: 0.46;
+        }
+
+        .roadmap-node-track {
+          grid-template-columns: 1fr;
+          gap: 18px;
+          align-items: start;
+          padding: 30px 18px;
+        }
+
+        .roadmap-node-track::before {
+          top: 58px;
+          bottom: 58px;
+          left: 60px;
+          width: 1px;
+          height: auto;
+          background: linear-gradient(
+            180deg,
+            rgb(96 165 250 / 0),
+            rgb(96 165 250 / 0.72) 14%,
+            rgb(45 212 191 / 0.72) 86%,
+            rgb(45 212 191 / 0)
+          );
+        }
+
+        .roadmap-node-card {
+          grid-template-columns: 86px minmax(0, 1fr);
+          align-items: center;
+          justify-items: start;
+          min-height: 84px;
+          gap: 12px;
+          text-align: left;
+        }
+
+        .roadmap-node-status {
+          top: 8px;
+          left: 86px;
+          transform: none;
+        }
+
+        .roadmap-node-visual {
+          width: 74px;
+          box-shadow:
+            inset 0 1px 0 rgb(255 255 255 / 0.09),
+            0 0 0 6px rgb(8 17 31 / 0.34),
+            0 14px 28px rgb(0 0 0 / 0.26),
+            0 0 22px rgb(37 99 255 / 0.12);
+        }
+
+        .roadmap-node-visual svg {
+          width: 34px;
+          height: 34px;
+        }
+
+        .roadmap-node-visual img {
+          width: var(--roadmap-node-image-size-mobile, 74px);
+          height: var(--roadmap-node-image-size-mobile, 74px);
+        }
+
+        .roadmap-node-card.node-browser {
+          --roadmap-node-image-size-mobile: 82px;
+          --roadmap-node-image-x: -7px;
+          --roadmap-node-image-y: -10px;
+        }
+
+        .roadmap-node-card.node-mobile {
+          --roadmap-node-image-size-mobile: 82px;
+          --roadmap-node-image-x: -1px;
+          --roadmap-node-image-y: -7px;
+        }
+
+        .roadmap-node-card.node-desktop {
+          --roadmap-node-image-size-mobile: 82px;
+          --roadmap-node-image-x: -5px;
+          --roadmap-node-image-y: 1px;
+        }
+
+        .roadmap-node-card.node-community {
+          --roadmap-node-image-size-mobile: 84px;
+          --roadmap-node-image-x: -3px;
+          --roadmap-node-image-y: -3px;
+        }
+
+        .roadmap-node-copy {
+          justify-items: start;
+          min-height: 0;
+        }
+
+        .roadmap-node-card strong {
+          font-size: 14px;
         }
       }
 
@@ -984,147 +1238,222 @@
         </figure>
       </section>
 
-      <section id="roadmap" class="section page" aria-labelledby="roadmap-title">
-        <div class="section-heading">
-          <h2 id="roadmap-title">From personal clarity to shared response.</h2>
-          <p>
-            The preview starts with reading. The larger direction is a practical
-            path from context to verification to responsible action.
-          </p>
-        </div>
-        <div class="roadmap-shell">
-          <div class="timeline">
-            <div class="timeline-row">
-              <div class="phase">Now</div>
-              <div>
-                <h3>Early preview and feedback</h3>
-                <p>
-                  Stabilize the Chrome extension, improve model setup, and learn
-                  from real reading sessions.
-                </p>
-              </div>
-            </div>
-            <div class="timeline-row">
-              <div class="phase">Next</div>
-              <div>
-                <h3>More places to read</h3>
-                <p>
-                  Analyze comments, support more social platforms, and add a
-                  basic mode for ordinary web pages.
-                </p>
-              </div>
-            </div>
-            <div class="timeline-row">
-              <div class="phase">Later</div>
-              <div>
-                <h3>Verification and response workflows</h3>
-                <p>
-                  Explore mobile solutions, collaborative signals, reusable
-                  evidence links, and safer ways to respond with context.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <aside class="cta-card" aria-label="Get involved">
-            <h3>Help shape what comes next.</h3>
-            <p>
-              Tell us what feels useful, where it gets in your way, and what
-              should become easier to verify or act on.
-            </p>
-            <a class="button primary" href="/feedback/">Send feedback</a>
-            <a class="button" href="https://github.com/devjoe/truly">View GitHub</a>
-          </aside>
-        </div>
-      </section>
-
       <section id="preview" class="section page" aria-labelledby="preview-title">
         <div class="section-heading">
-          <h2 id="preview-title">The first preview is a Chrome extension.</h2>
+          <h2 id="preview-title">Start where confusion starts: beside the post.</h2>
           <p>
-            It appears where confusion usually starts: beside the post you are
-            already reading.
+            The first Truly preview is a Chrome extension that sits next to the
+            social posts you are already reading, with lightweight signals
+            before you decide what to trust, open, or share.
           </p>
         </div>
         <div class="preview-layout">
           <figure class="demo-card" aria-label="Truly product preview">
-            <div class="demo-chrome">
-              <div class="window-dots" aria-hidden="true">
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
-              <span>reading hints · expanded view · side panel</span>
-            </div>
             <div class="demo-media">
               <video
-                controls
+                autoplay
                 muted
                 loop
                 playsinline
                 preload="metadata"
                 poster="assets/truly-demo-balanced-poster.jpg"
-                aria-label="Animated synthetic demo of Truly showing reading hints, an expanded summary, and a side panel."
+                aria-label="Animated demo of Truly showing reading signals, context view, and user-controlled handoff."
               >
                 <source src="assets/truly-demo-balanced.mp4" type="video/mp4">
                 <img
                   src="assets/truly-demo-balanced-poster.jpg"
-                  alt="Synthetic demo preview of Truly showing reading hints, an expanded summary, and a side panel."
+                  alt="Demo preview of Truly showing reading signals, context view, and user-controlled handoff."
                   loading="lazy"
                 >
               </video>
-              <span class="demo-badge">Synthetic preview</span>
             </div>
             <figcaption class="caption">
-              Reading hints, expanded view, and side panel.
+              <span>
+                <strong>Signals first.</strong>
+                Small hints without turning the feed into a report.
+              </span>
+              <span>
+                <strong>Context when needed.</strong>
+                Expand the reason, claim signals, and notes when something deserves a closer look.
+              </span>
+              <span>
+                <strong>Handoff by choice.</strong>
+                Send context to search, AI tools, notes, or export only when you decide to.
+              </span>
             </figcaption>
           </figure>
 
-          <div>
-            <div class="feature-list">
-              <article class="feature-card">
-                <h3>Reading hints</h3>
-                <p>Small signals before a post, without turning the feed into a report.</p>
-              </article>
-              <article class="feature-card">
-                <h3>Expanded context</h3>
-                <p>A short reason, reading signals, and a path to deeper context.</p>
-              </article>
-              <article class="feature-card">
-                <h3>Side panel handoff</h3>
-                <p>Questions, notes, search, Meta AI, and export actions stay one click away.</p>
-              </article>
-            </div>
-            <div class="trust-strip" aria-label="Trust boundaries">
-              <div class="trust-item">
-                <strong>Your model setup</strong>
-                Chrome Gemini Nano, Ollama, or your own compatible endpoint.
-              </div>
-              <div class="trust-item">
-                <strong>No project feed backend</strong>
-                Reading analysis is not sent to a Truly-operated server.
-              </div>
-              <div class="trust-item">
-                <strong>Click before handoff</strong>
-                External tools receive content only when you send it.
-              </div>
-            </div>
-            <div class="preview-actions" aria-label="Preview actions">
-              <a class="button primary" href="https://github.com/devjoe/truly/releases">Download preview</a>
-              <a class="button" href="https://github.com/devjoe/truly">View GitHub</a>
-            </div>
+          <div class="preview-actions" aria-label="Preview actions">
+            <a class="button primary" href="https://github.com/devjoe/truly/releases">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></path>
+                <path
+                  d="M7 10l5 5 5-5"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></path>
+                <path
+                  d="M12 15V3"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></path>
+              </svg>
+              <span>Download preview</span>
+            </a>
+            <a class="button" href="https://github.com/devjoe/truly">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5a4.8 4.8 0 0 0-1 3.5v4"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></path>
+                <path
+                  d="M9 18c-4.5 2-5-2-7-2"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></path>
+              </svg>
+              <span>View GitHub</span>
+            </a>
           </div>
         </div>
+      </section>
+
+      <section id="roadmap" class="section page" aria-labelledby="roadmap-title">
+        <div class="roadmap-layout">
+          <div class="section-heading">
+            <span class="roadmap-kicker">Project roadmap</span>
+            <h2 id="roadmap-title">Reading clarity is only the beginning.</h2>
+            <p>
+              Truly starts beside the post you are reading. The longer arc is
+              AI infrastructure for checking claims across feeds, web pages,
+              and communities.
+            </p>
+          </div>
+          <figure
+            class="roadmap-figure"
+            aria-label="Roadmap path from browser extensions to mobile apps, desktop apps, and community support across social platforms and normal web pages."
+          >
+            <div class="roadmap-stage-map">
+              <img
+                class="roadmap-flow-image"
+                src="assets/truly-roadmap-flow-background-v3.png"
+                alt=""
+                width="2048"
+                height="1024"
+                aria-hidden="true"
+              >
+              <ol class="roadmap-node-track">
+                <li class="roadmap-node-card node-browser is-active" aria-current="step">
+                  <span class="roadmap-node-status">Now</span>
+                  <div class="roadmap-node-visual" role="img" aria-label="Browser extension popup beside a reading page">
+                    <img
+                      src="assets/truly-roadmap-node-browser-extension-cutout-v3.png"
+                      alt=""
+                      width="512"
+                      height="512"
+                      aria-hidden="true"
+                    >
+                  </div>
+                  <div class="roadmap-node-copy">
+                    <span class="roadmap-node-step">01</span>
+                    <strong>Browser Extensions</strong>
+                  </div>
+                </li>
+                <li class="roadmap-node-card node-mobile">
+                  <div class="roadmap-node-visual" role="img" aria-label="Mobile apps icon">
+                    <img
+                      src="assets/truly-roadmap-node-mobile-apps-cutout-v3.png"
+                      alt=""
+                      width="512"
+                      height="512"
+                      aria-hidden="true"
+                    >
+                  </div>
+                  <div class="roadmap-node-copy">
+                    <span class="roadmap-node-step">02</span>
+                    <strong>Mobile Apps</strong>
+                  </div>
+                </li>
+                <li class="roadmap-node-card node-desktop">
+                  <div class="roadmap-node-visual" role="img" aria-label="Desktop apps icon">
+                    <img
+                      src="assets/truly-roadmap-node-desktop-apps-cutout-v3.png"
+                      alt=""
+                      width="512"
+                      height="512"
+                      aria-hidden="true"
+                    >
+                  </div>
+                  <div class="roadmap-node-copy">
+                    <span class="roadmap-node-step">03</span>
+                    <strong>Desktop Apps</strong>
+                  </div>
+                </li>
+                <li class="roadmap-node-card node-community">
+                  <div class="roadmap-node-visual" role="img" aria-label="Community discussion around shared claim context">
+                    <img
+                      src="assets/truly-roadmap-node-community-cutout-v3.png"
+                      alt=""
+                      width="512"
+                      height="512"
+                      aria-hidden="true"
+                    >
+                  </div>
+                  <div class="roadmap-node-copy">
+                    <span class="roadmap-node-step">04</span>
+                    <strong>Community Features</strong>
+                  </div>
+                </li>
+              </ol>
+            </div>
+          </figure>
+        </div>
+      </section>
+
+      <section id="feedback" class="feedback-band page" aria-labelledby="feedback-title">
+        <div>
+          <h2 id="feedback-title">What should be easier to check?</h2>
+          <p>
+            Tell us where Truly helped, where it got in the way, and what should
+            become easier to check next.
+          </p>
+        </div>
+        <a class="button primary" href="/feedback/">
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4Z"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            ></path>
+          </svg>
+          <span>Send feedback</span>
+        </a>
       </section>
     </main>
 
     <footer class="footer page">
-      <div>Truly · 梳理 — to comb through and clarify.</div>
+      <div class="footer-identity">
+        <span>Truly · 梳理 — to comb through and clarify.</span>
+        <span class="footer-origin">
+          <span>The idea for Truly began in Taiwan.</span>
+        </span>
+      </div>
       <div class="footer-links">
         <a href="https://github.com/devjoe/truly">GitHub</a>
         <a href="/privacy/">Privacy</a>
         <a href="/feedback/">Feedback</a>
-        <a href="mailto:hello@trulyreader.org">hello@trulyreader.org</a>
+        <a class="footer-contact" href="mailto:hello@trulyreader.org">hello@trulyreader.org</a>
       </div>
     </footer>
   </body>

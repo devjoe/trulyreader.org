@@ -13,6 +13,22 @@ Current purpose:
 Open `index.html`, `privacy/index.html`, or `feedback/index.html` in a browser.
 The site is static and does not require a build step.
 
+## Homepage Notes
+
+### 2026-06-21
+
+- The homepage order is hero, Chrome Extension preview, Project Roadmap, Feedback, then footer.
+- The Chrome Extension preview uses the looping `assets/truly-demo-balanced.mp4` without playback controls, with the surrounding copy condensed into the video caption and call-to-action row.
+- The roadmap uses a generated background plus cropped circular node artwork. The canonical assets for the current roadmap are:
+  - `assets/truly-roadmap-flow-background-v3.png`
+  - `assets/truly-roadmap-node-browser-extension-cutout-v3.png`
+  - `assets/truly-roadmap-node-mobile-apps-cutout-v3.png`
+  - `assets/truly-roadmap-node-desktop-apps-cutout-v3.png`
+  - `assets/truly-roadmap-node-community-cutout-v3.png`
+- `prototypes/roadmap-node-positioner.html` is the adjustment tool for roadmap node image offsets and should be kept in sync with the production CSS variables in `index.html`.
+- The footer keeps `Truly · 梳理 — to comb through and clarify.` as the identity line, with `The idea for Truly began in Taiwan.` as a lighter secondary note.
+- Visual checks from the implementation session were captured under `/private/tmp/`, including `truly-footer-origin-final-desktop.png` and `truly-footer-origin-final-mobile.png`.
+
 ## GitHub Pages
 
 Publish from the `main` branch root. The custom domain is set by `CNAME`.

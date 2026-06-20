@@ -1,0 +1,711 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Roadmap Node Positioner</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #070d16;
+        --panel: #0b1422;
+        --panel-soft: #101b2c;
+        --border: rgb(148 163 184 / 0.22);
+        --ink: #edf4ff;
+        --muted: #93a4ba;
+        --blue: #2563ff;
+        --teal: #2dd4bf;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background:
+          radial-gradient(circle at 24% 10%, rgb(37 99 255 / 0.18), transparent 24rem),
+          linear-gradient(180deg, #080e17, var(--bg));
+        color: var(--ink);
+        font: 15px/1.45 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      button,
+      input,
+      textarea {
+        font: inherit;
+      }
+
+      .page {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 360px;
+        min-height: 100vh;
+        gap: 24px;
+        padding: 24px;
+      }
+
+      .preview-shell,
+      .controls {
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        background: rgb(8 17 31 / 0.78);
+        box-shadow: 0 24px 80px rgb(0 0 0 / 0.28);
+      }
+
+      .preview-shell {
+        display: grid;
+        grid-template-rows: auto 1fr;
+        min-width: 0;
+        overflow: hidden;
+      }
+
+      .toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 18px;
+        letter-spacing: 0;
+      }
+
+      .mode-switch {
+        display: inline-flex;
+        gap: 4px;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        background: rgb(2 6 23 / 0.45);
+        padding: 4px;
+      }
+
+      .mode-switch button,
+      .button {
+        border: 0;
+        border-radius: 999px;
+        background: transparent;
+        color: var(--muted);
+        cursor: pointer;
+        font-weight: 800;
+        padding: 8px 12px;
+      }
+
+      .mode-switch button[aria-pressed="true"],
+      .button.primary {
+        background: linear-gradient(135deg, var(--blue), var(--teal));
+        color: white;
+      }
+
+      .button {
+        border: 1px solid var(--border);
+        background: rgb(15 23 42 / 0.72);
+      }
+
+      .stage {
+        display: grid;
+        place-items: center;
+        min-height: 620px;
+        padding: 32px;
+      }
+
+      .roadmap-map {
+        position: relative;
+        width: min(100%, 920px);
+        min-height: 360px;
+        overflow: hidden;
+        border: 1px solid rgb(148 163 184 / 0.25);
+        border-radius: 28px;
+        background: #07111f;
+      }
+
+      .roadmap-map::before {
+        position: absolute;
+        inset: 0;
+        background: url("../assets/truly-roadmap-flow-background-v3.png") center / cover;
+        content: "";
+        opacity: 0.48;
+      }
+
+      .roadmap-map::after {
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(180deg, rgb(6 13 24 / 0.16), rgb(6 13 24 / 0.72)),
+          radial-gradient(circle at 50% 45%, transparent 0 16rem, rgb(6 13 24 / 0.36) 34rem);
+        content: "";
+      }
+
+      .nodes {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        align-items: center;
+        min-height: 360px;
+        padding: 48px 44px 42px;
+      }
+
+      .nodes::before {
+        position: absolute;
+        top: calc(50% - 28px);
+        right: 140px;
+        left: 140px;
+        z-index: -1;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, rgb(96 165 250 / 0.55), rgb(45 212 191 / 0.55), transparent);
+        content: "";
+      }
+
+      .roadmap-map[data-mode="mobile"] {
+        width: min(100%, 430px);
+        min-height: 560px;
+      }
+
+      .roadmap-map[data-mode="mobile"] .nodes {
+        grid-template-columns: 1fr;
+        gap: 18px;
+        align-items: start;
+        min-height: 560px;
+        padding: 34px 24px;
+      }
+
+      .roadmap-map[data-mode="mobile"] .nodes::before {
+        top: 72px;
+        bottom: 72px;
+        left: 68px;
+        width: 1px;
+        height: auto;
+        background: linear-gradient(180deg, transparent, rgb(96 165 250 / 0.65), rgb(45 212 191 / 0.65), transparent);
+      }
+
+      .node {
+        position: relative;
+        display: grid;
+        justify-items: center;
+        gap: 12px;
+        min-width: 0;
+      }
+
+      .roadmap-map[data-mode="mobile"] .node {
+        grid-template-columns: 92px minmax(0, 1fr);
+        align-items: center;
+        justify-items: start;
+        min-height: 92px;
+        gap: 12px;
+      }
+
+      .node-frame {
+        position: relative;
+        display: grid;
+        place-items: center;
+        width: var(--frame, 104px);
+        aspect-ratio: 1;
+        overflow: hidden;
+        border: 1px solid rgb(148 197 253 / 0.2);
+        border-radius: 999px;
+        background:
+          radial-gradient(circle at 50% 42%, rgb(37 99 255 / 0.16), transparent 52%),
+          rgb(8 17 31 / 0.68);
+        box-shadow:
+          inset 0 1px 0 rgb(255 255 255 / 0.09),
+          0 0 0 7px rgb(8 17 31 / 0.28),
+          0 18px 36px rgb(0 0 0 / 0.24),
+          0 0 26px rgb(37 99 255 / 0.13);
+        cursor: grab;
+        user-select: none;
+      }
+
+      .node-frame:active {
+        cursor: grabbing;
+      }
+
+      .node-frame::before {
+        position: absolute;
+        inset: 0;
+        z-index: 3;
+        pointer-events: none;
+        content: "";
+      }
+
+      .show-guides .node-frame::before {
+        background:
+          linear-gradient(90deg, transparent calc(50% - 0.5px), rgb(255 65 65 / 0.95) calc(50% - 0.5px), rgb(255 65 65 / 0.95) calc(50% + 0.5px), transparent calc(50% + 0.5px)),
+          linear-gradient(0deg, transparent calc(50% - 0.5px), rgb(255 65 65 / 0.95) calc(50% - 0.5px), rgb(255 65 65 / 0.95) calc(50% + 0.5px), transparent calc(50% + 0.5px));
+      }
+
+      .node.is-active .node-frame {
+        border-color: rgb(147 197 253 / 0.42);
+        box-shadow:
+          inset 0 1px 0 rgb(255 255 255 / 0.12),
+          0 0 0 7px rgb(37 99 255 / 0.18),
+          0 0 0 11px rgb(45 212 191 / 0.08),
+          0 20px 42px rgb(0 0 0 / 0.28),
+          0 0 34px rgb(45 212 191 / 0.2);
+      }
+
+      .node-frame img {
+        position: relative;
+        z-index: 1;
+        width: var(--img-size);
+        height: var(--img-size);
+        border-radius: 999px;
+        filter: brightness(1.13) saturate(1.12) contrast(1.08);
+        object-fit: contain;
+        transform: translate(var(--img-x), var(--img-y));
+        pointer-events: none;
+      }
+
+      .node.selected .node-frame {
+        outline: 2px solid rgb(45 212 191 / 0.86);
+        outline-offset: 4px;
+      }
+
+      .node:not(.is-active) {
+        opacity: 0.76;
+      }
+
+      .node-status {
+        position: absolute;
+        top: -10px;
+        left: 50%;
+        z-index: 4;
+        transform: translateX(-50%);
+        border: 1px solid rgb(45 212 191 / 0.34);
+        border-radius: 999px;
+        background: rgb(6 16 30 / 0.86);
+        box-shadow: 0 0 18px rgb(45 212 191 / 0.14);
+        color: rgb(191 244 238 / 0.96);
+        font-size: 9px;
+        font-weight: 900;
+        letter-spacing: 0.1em;
+        line-height: 1;
+        padding: 5px 8px;
+        text-transform: uppercase;
+      }
+
+      .roadmap-map[data-mode="mobile"] .node-status {
+        top: 8px;
+        left: 92px;
+        transform: none;
+      }
+
+      .node-copy {
+        display: grid;
+        gap: 4px;
+        justify-items: center;
+      }
+
+      .roadmap-map[data-mode="mobile"] .node-copy {
+        justify-items: start;
+      }
+
+      .step {
+        color: rgb(147 197 253 / 0.74);
+        font-size: 10px;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+      }
+
+      .label {
+        color: rgb(241 247 255 / 0.94);
+        font-size: 14px;
+        font-weight: 900;
+        line-height: 1.12;
+      }
+
+      .controls {
+        display: grid;
+        align-content: start;
+        gap: 18px;
+        padding: 18px;
+      }
+
+      .field {
+        display: grid;
+        gap: 8px;
+      }
+
+      .field label {
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 850;
+        text-transform: uppercase;
+      }
+
+      .field-row {
+        display: grid;
+        grid-template-columns: 1fr 72px;
+        gap: 10px;
+        align-items: center;
+      }
+
+      input[type="range"] {
+        width: 100%;
+        accent-color: var(--teal);
+      }
+
+      input[type="number"] {
+        width: 72px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: rgb(2 6 23 / 0.5);
+        color: var(--ink);
+        padding: 7px 8px;
+      }
+
+      .selected-name {
+        display: grid;
+        gap: 4px;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        background: var(--panel-soft);
+        padding: 14px;
+      }
+
+      .selected-name strong {
+        font-size: 16px;
+      }
+
+      .selected-name span {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .button-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      textarea {
+        min-height: 220px;
+        width: 100%;
+        resize: vertical;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        background: rgb(2 6 23 / 0.58);
+        color: #dbeafe;
+        padding: 12px;
+        font-family: "SFMono-Regular", Consolas, monospace;
+        font-size: 12px;
+        line-height: 1.5;
+      }
+
+      .hint {
+        margin: 0;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      @media (max-width: 980px) {
+        .page {
+          grid-template-columns: 1fr;
+        }
+
+        .stage {
+          min-height: auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page show-guides">
+      <section class="preview-shell" aria-label="Roadmap node positioning preview">
+        <div class="toolbar">
+          <h1>Roadmap Node Positioner</h1>
+          <div class="mode-switch" aria-label="Preview mode">
+            <button type="button" data-mode-button="desktop" aria-pressed="true">Desktop</button>
+            <button type="button" data-mode-button="mobile" aria-pressed="false">Mobile</button>
+          </div>
+        </div>
+        <div class="stage">
+          <div class="roadmap-map" data-mode="desktop">
+            <ol class="nodes" id="nodes"></ol>
+          </div>
+        </div>
+      </section>
+
+      <aside class="controls" aria-label="Position controls">
+        <div class="selected-name">
+          <strong id="selected-title">Browser Extensions</strong>
+          <span id="selected-mode">Desktop values</span>
+        </div>
+
+        <p class="hint">Drag inside a circle to move the image. Use the sliders for exact values. Save stores the current parameters for Codex to read back.</p>
+
+        <div class="field">
+          <label for="size">Image size</label>
+          <div class="field-row">
+            <input id="size" type="range" min="48" max="132" step="1">
+            <input id="size-num" type="number" min="48" max="132" step="1">
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="x">Horizontal offset</label>
+          <div class="field-row">
+            <input id="x" type="range" min="-36" max="36" step="1">
+            <input id="x-num" type="number" min="-36" max="36" step="1">
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="y">Vertical offset</label>
+          <div class="field-row">
+            <input id="y" type="range" min="-36" max="36" step="1">
+            <input id="y-num" type="number" min="-36" max="36" step="1">
+          </div>
+        </div>
+
+        <div class="button-row">
+          <button class="button primary" type="button" id="save">Save parameters</button>
+          <button class="button" type="button" id="copy">Copy CSS</button>
+          <button class="button" type="button" id="guides">Hide guides</button>
+          <button class="button" type="button" id="reset-node">Reset node</button>
+        </div>
+
+        <textarea id="output" spellcheck="false" aria-label="Saved roadmap node parameters"></textarea>
+      </aside>
+    </main>
+
+    <script>
+      const STORAGE_KEY = "truly.roadmapNodePositioner.v3";
+
+      const nodes = [
+        {
+          id: "browser",
+          title: "Browser Extensions",
+          step: "01",
+          active: true,
+          src: "../assets/truly-roadmap-node-browser-extension-cutout-v3.png",
+          defaults: {
+            desktop: { size: 100, x: -2, y: -8 },
+            mobile: { size: 82, x: -7, y: -10 }
+          }
+        },
+        {
+          id: "mobile",
+          title: "Mobile Apps",
+          step: "02",
+          src: "../assets/truly-roadmap-node-mobile-apps-cutout-v3.png",
+          defaults: {
+            desktop: { size: 95, x: 7, y: -3 },
+            mobile: { size: 82, x: -1, y: -7 }
+          }
+        },
+        {
+          id: "desktop",
+          title: "Desktop Apps",
+          step: "03",
+          src: "../assets/truly-roadmap-node-desktop-apps-cutout-v3.png",
+          defaults: {
+            desktop: { size: 100, x: 0, y: 8 },
+            mobile: { size: 82, x: -5, y: 1 }
+          }
+        },
+        {
+          id: "community",
+          title: "Community Features",
+          step: "04",
+          src: "../assets/truly-roadmap-node-community-cutout-v3.png",
+          defaults: {
+            desktop: { size: 90, x: 4, y: 4 },
+            mobile: { size: 84, x: -3, y: -3 }
+          }
+        }
+      ];
+
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+      const state = saved?.nodes ? saved : {
+        mode: "desktop",
+        selected: "browser",
+        nodes: Object.fromEntries(nodes.map((node) => [
+          node.id,
+          structuredClone(node.defaults)
+        ]))
+      };
+
+      let dragState = null;
+
+      const nodesEl = document.querySelector("#nodes");
+      const mapEl = document.querySelector(".roadmap-map");
+      const titleEl = document.querySelector("#selected-title");
+      const modeEl = document.querySelector("#selected-mode");
+      const outputEl = document.querySelector("#output");
+      const sizeInput = document.querySelector("#size");
+      const sizeNum = document.querySelector("#size-num");
+      const xInput = document.querySelector("#x");
+      const xNum = document.querySelector("#x-num");
+      const yInput = document.querySelector("#y");
+      const yNum = document.querySelector("#y-num");
+
+      function getParams(id, mode = state.mode) {
+        return state.nodes[id][mode];
+      }
+
+      function renderNodes() {
+        nodesEl.innerHTML = nodes.map((node) => {
+          const params = getParams(node.id);
+          return `
+            <li class="node ${node.active ? "is-active" : ""} ${state.selected === node.id ? "selected" : ""}" data-node="${node.id}">
+              ${node.active ? '<span class="node-status">Now</span>' : ""}
+              <button class="node-frame" type="button" aria-label="${node.title}">
+                <img
+                  src="${node.src}"
+                  alt=""
+                  draggable="false"
+                  style="--img-size: ${params.size}px; --img-x: ${params.x}px; --img-y: ${params.y}px;"
+                >
+              </button>
+              <div class="node-copy">
+                <span class="step">${node.step}</span>
+                <strong class="label">${node.title}</strong>
+              </div>
+            </li>
+          `;
+        }).join("");
+      }
+
+      function renderControls() {
+        const node = nodes.find((item) => item.id === state.selected);
+        const params = getParams(state.selected);
+        titleEl.textContent = node.title;
+        modeEl.textContent = `${state.mode[0].toUpperCase()}${state.mode.slice(1)} values`;
+        for (const [input, value] of [[sizeInput, params.size], [sizeNum, params.size], [xInput, params.x], [xNum, params.x], [yInput, params.y], [yNum, params.y]]) {
+          input.value = value;
+        }
+      }
+
+      function cssBlock() {
+        const lines = [];
+        for (const node of nodes) {
+          const desktop = state.nodes[node.id].desktop;
+          lines.push(`.roadmap-node-card.node-${node.id} {`);
+          lines.push(`  --roadmap-node-image-size: ${desktop.size}px;`);
+          lines.push(`  --roadmap-node-image-x: ${desktop.x}px;`);
+          lines.push(`  --roadmap-node-image-y: ${desktop.y}px;`);
+          lines.push("}");
+          lines.push("");
+        }
+        lines.push("@media (max-width: 720px) {");
+        for (const node of nodes) {
+          const mobile = state.nodes[node.id].mobile;
+          lines.push(`  .roadmap-node-card.node-${node.id} {`);
+          lines.push(`    --roadmap-node-image-size-mobile: ${mobile.size}px;`);
+          lines.push(`    --roadmap-node-image-x: ${mobile.x}px;`);
+          lines.push(`    --roadmap-node-image-y: ${mobile.y}px;`);
+          lines.push("  }");
+        }
+        lines.push("}");
+        return lines.join("\n");
+      }
+
+      function renderOutput() {
+        outputEl.value = `${JSON.stringify(state, null, 2)}\n\n${cssBlock()}`;
+      }
+
+      function renderAll() {
+        mapEl.dataset.mode = state.mode;
+        document.querySelectorAll("[data-mode-button]").forEach((button) => {
+          button.setAttribute("aria-pressed", String(button.dataset.modeButton === state.mode));
+        });
+        renderNodes();
+        renderControls();
+        renderOutput();
+      }
+
+      function updateParam(key, value) {
+        getParams(state.selected)[key] = Number(value);
+        renderAll();
+      }
+
+      function saveState() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        window.roadmapNodePositionerState = state;
+        renderOutput();
+      }
+
+      nodesEl.addEventListener("click", (event) => {
+        const node = event.target.closest("[data-node]");
+        if (!node) return;
+        state.selected = node.dataset.node;
+        renderAll();
+      });
+
+      nodesEl.addEventListener("pointerdown", (event) => {
+        const frame = event.target.closest(".node-frame");
+        const node = event.target.closest("[data-node]");
+        if (!frame || !node) return;
+        state.selected = node.dataset.node;
+        const params = getParams(state.selected);
+        dragState = {
+          pointerId: event.pointerId,
+          startX: event.clientX,
+          startY: event.clientY,
+          initialX: params.x,
+          initialY: params.y
+        };
+        frame.setPointerCapture(event.pointerId);
+        renderAll();
+      });
+
+      nodesEl.addEventListener("pointermove", (event) => {
+        if (!dragState || event.pointerId !== dragState.pointerId) return;
+        const params = getParams(state.selected);
+        params.x = Math.max(-36, Math.min(36, Math.round(dragState.initialX + event.clientX - dragState.startX)));
+        params.y = Math.max(-36, Math.min(36, Math.round(dragState.initialY + event.clientY - dragState.startY)));
+        renderAll();
+      });
+
+      nodesEl.addEventListener("pointerup", (event) => {
+        if (dragState?.pointerId === event.pointerId) {
+          dragState = null;
+        }
+      });
+
+      document.querySelectorAll("[data-mode-button]").forEach((button) => {
+        button.addEventListener("click", () => {
+          state.mode = button.dataset.modeButton;
+          renderAll();
+        });
+      });
+
+      for (const [input, key] of [[sizeInput, "size"], [sizeNum, "size"], [xInput, "x"], [xNum, "x"], [yInput, "y"], [yNum, "y"]]) {
+        input.addEventListener("input", () => updateParam(key, input.value));
+      }
+
+      document.querySelector("#save").addEventListener("click", async () => {
+        saveState();
+        try {
+          await navigator.clipboard.writeText(outputEl.value);
+        } catch {
+          // Clipboard access is optional.
+        }
+      });
+
+      document.querySelector("#copy").addEventListener("click", async () => {
+        renderOutput();
+        await navigator.clipboard.writeText(cssBlock());
+      });
+
+      document.querySelector("#guides").addEventListener("click", (event) => {
+        document.querySelector(".page").classList.toggle("show-guides");
+        event.currentTarget.textContent = document.querySelector(".page").classList.contains("show-guides") ? "Hide guides" : "Show guides";
+      });
+
+      document.querySelector("#reset-node").addEventListener("click", () => {
+        const node = nodes.find((item) => item.id === state.selected);
+        state.nodes[node.id][state.mode] = structuredClone(node.defaults[state.mode]);
+        renderAll();
+      });
+
+      window.roadmapNodePositionerState = state;
+      renderAll();
+    </script>
+  </body>
+</html>
