@@ -11,12 +11,14 @@
     <meta property="og:title" content="Truly">
     <meta
       property="og:description"
-      content="Clarify first. Verify next. Act with context."
+      content="From scattered signals to clearer context."
     >
     <meta property="og:image" content="https://trulyreader.org/assets/truly-social-en.png">
+    <meta property="og:image:width" content="1280">
+    <meta property="og:image:height" content="640">
     <meta
       property="og:image:alt"
-      content="Truly preview showing reading hints, an expanded view, and a side panel."
+      content="Truly social preview with the logo and a night reading scene where scattered information cards connect into clearer context."
     >
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://trulyreader.org/">
@@ -28,9 +30,13 @@
     <meta name="twitter:title" content="Truly">
     <meta
       name="twitter:description"
-      content="Clarify first. Verify next. Act with context."
+      content="From scattered signals to clearer context."
     >
     <meta name="twitter:image" content="https://trulyreader.org/assets/truly-social-en.png">
+    <meta
+      name="twitter:image:alt"
+      content="Truly social preview with the logo and a night reading scene where scattered information cards connect into clearer context."
+    >
     <style>
       :root {
         color-scheme: light dark;
@@ -853,28 +859,44 @@
       .feedback-band {
         display: grid;
         grid-template-columns: minmax(0, 1fr) auto;
-        gap: 24px;
+        gap: 20px;
         align-items: center;
-        margin: 34px auto 0;
-        border: 1px solid var(--border);
-        border-radius: 22px;
-        background:
-          radial-gradient(circle at top right, rgb(37 99 255 / 0.08), transparent 15rem),
-          var(--surface);
-        padding: 24px 26px;
-        box-shadow: 0 18px 54px rgb(15 23 42 / 0.08);
+        margin: 22px auto 0;
+        border: 1px solid color-mix(in srgb, var(--border) 74%, transparent);
+        border-radius: 16px;
+        background: color-mix(in srgb, var(--surface) 78%, transparent);
+        padding: 18px 20px;
+        box-shadow:
+          0 1px 0 rgb(255 255 255 / 0.72) inset,
+          0 12px 36px rgb(15 23 42 / 0.045);
       }
 
       .feedback-band h2 {
-        margin-bottom: 7px;
-        font-size: 30px;
-        line-height: 1.12;
+        max-width: 820px;
+        margin-bottom: 5px;
+        font-size: clamp(23px, 2.2vw, 26px);
+        line-height: 1.18;
       }
 
       .feedback-band p {
         max-width: 65ch;
         margin-bottom: 0;
         color: var(--muted);
+      }
+
+      .feedback-band .button {
+        min-height: 42px;
+        border-color: color-mix(in srgb, var(--accent) 30%, var(--border));
+        background: color-mix(in srgb, var(--accent) 7%, var(--surface));
+        color: var(--accent);
+        font-size: 14px;
+        box-shadow: none;
+      }
+
+      .feedback-band .button.primary {
+        border-color: color-mix(in srgb, var(--accent) 30%, var(--border));
+        background: color-mix(in srgb, var(--accent) 7%, var(--surface));
+        color: var(--accent);
       }
 
       .footer {
