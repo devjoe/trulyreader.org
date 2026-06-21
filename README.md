@@ -10,7 +10,8 @@ Current purpose:
 
 ## Local Preview
 
-Open `index.html`, `privacy/index.html`, or `feedback/index.html` in a browser.
+Open `index.html`, `zh/index.html`, `privacy/index.html`, or
+`feedback/index.html` in a browser.
 The site is static and does not require a build step.
 
 ## Homepage Notes
@@ -29,6 +30,9 @@ The site is static and does not require a build step.
 - The footer keeps `Truly · 梳理 — to comb through and clarify.` as the identity line, with `The idea for Truly began in Taiwan.` as a lighter secondary note.
 - Visual checks from the implementation session were captured under `/private/tmp/`, including `truly-footer-origin-final-desktop.png` and `truly-footer-origin-final-mobile.png`.
 - The hero concept image was updated to the selected lower-right tabletop cleanup variant. Regenerate `assets/truly-hero-context-map-local-motion.mp4` with `prototypes/generate-hero-local-motion.sh` after replacing `assets/truly-hero-context-map.png`; the current green confirmation pulse is centered at `x=1156, y=492` in the 1280x852 video frame. Verification crops were saved as `/private/tmp/truly-hero-motion-context-crop-v2.png` and `/private/tmp/truly-hero-motion-context-crosshair-v2.png`.
+- The Traditional Chinese homepage lives at `zh/index.html`. The English
+  homepage links to it with `hreflang="zh-Hant"`, and the Chinese page links
+  back to `/` with `hreflang="en"`.
 
 ## GitHub Pages
 
