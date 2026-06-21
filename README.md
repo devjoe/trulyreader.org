@@ -28,6 +28,7 @@ The site is static and does not require a build step.
 - `prototypes/roadmap-node-positioner.html` is the adjustment tool for roadmap node image offsets and should be kept in sync with the production CSS variables in `index.html`.
 - The footer keeps `Truly · 梳理 — to comb through and clarify.` as the identity line, with `The idea for Truly began in Taiwan.` as a lighter secondary note.
 - Visual checks from the implementation session were captured under `/private/tmp/`, including `truly-footer-origin-final-desktop.png` and `truly-footer-origin-final-mobile.png`.
+- The hero concept image was updated to the selected lower-right tabletop cleanup variant. Regenerate `assets/truly-hero-context-map-local-motion.mp4` with `prototypes/generate-hero-local-motion.sh` after replacing `assets/truly-hero-context-map.png`; the current green confirmation pulse is centered at `x=1156, y=492` in the 1280x852 video frame. Verification crops were saved as `/private/tmp/truly-hero-motion-context-crop-v2.png` and `/private/tmp/truly-hero-motion-context-crosshair-v2.png`.
 
 ## GitHub Pages
 

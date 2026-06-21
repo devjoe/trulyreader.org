@@ -10,9 +10,9 @@ output="$repo_root/assets/truly-hero-context-map-local-motion.mp4"
 filter_complex="
 [0:v]scale=1280:852,format=rgba[base];
 nullsrc=s=1280x852:d=8,format=rgba,
-  geq=r='34':g='197':b='94':a='(52+78*sin(T*2.4)*sin(T*2.4))*exp(-(((X-1166)*(X-1166))+((Y-492)*(Y-492)))/1450)'[green_halo];
+  geq=r='34':g='197':b='94':a='(52+78*sin(T*2.4)*sin(T*2.4))*exp(-(((X-1156)*(X-1156))+((Y-492)*(Y-492)))/1450)'[green_halo];
 nullsrc=s=1280x852:d=8,format=rgba,
-  geq=r='187':g='247':b='208':a='(24+50*sin(T*2.4)*sin(T*2.4))*exp(-(((X-1166)*(X-1166))+((Y-492)*(Y-492)))/230)'[green_core];
+  geq=r='187':g='247':b='208':a='(24+50*sin(T*2.4)*sin(T*2.4))*exp(-(((X-1156)*(X-1156))+((Y-492)*(Y-492)))/230)'[green_core];
 [base][green_halo]overlay=format=auto[s1];
 [s1][green_core]overlay=format=auto,format=yuv420p
 "
