@@ -33,6 +33,15 @@ The site is static and does not require a build step.
 - The Traditional Chinese homepage lives at `zh/index.html`. The English
   homepage links to it with `hreflang="zh-Hant"`, and the Chinese page links
   back to `/` with `hreflang="en"`.
+- The Chinese homepage uses native Traditional Chinese copy rather than a
+  literal translation. Its header keeps the Truly wordmark plus the spaced
+  subtitle `梳 理`, matching the extension settings page brand treatment.
+- The Chinese feedback band is intentionally reduced to one prompt:
+  `請告訴我們，哪些閱讀場景最需要被梳理。`
+- The Chinese footer intentionally reuses the English footer content for
+  identity consistency.
+- Final homepage QA artifacts for the English and Chinese pages were saved
+  under `/private/tmp/` as `truly-homepage-final-{en,zh}-{desktop,mobile}.png`.
 
 ## GitHub Pages
 
