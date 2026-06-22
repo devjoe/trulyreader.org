@@ -40,6 +40,9 @@ The site is static and does not require a build step.
   `請告訴我們，哪些閱讀場景最需要被梳理。`
 - The Chinese footer intentionally reuses the English footer content for
   identity consistency.
+- The favicon uses the Truly dot mark rather than the full social preview image:
+  `assets/favicon.svg`, `assets/favicon-32.png`, `assets/apple-touch-icon.png`,
+  and root `favicon.ico`.
 - Final homepage QA artifacts for the English and Chinese pages were saved
   under `/private/tmp/` as `truly-homepage-final-{en,zh}-{desktop,mobile}.png`.
 
