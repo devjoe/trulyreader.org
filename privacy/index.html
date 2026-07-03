@@ -104,14 +104,16 @@
     <main>
       <h1>Privacy Policy</h1>
       <p class="meta">
-        Last updated: 2026-06-10<br>
+        Last updated: 2026-07-04<br>
         Canonical URL: https://trulyreader.org/privacy
       </p>
 
       <p>
-        Truly is a local-first reading assistant for social feeds and web pages.
-        Reading analysis runs in the model environment you choose. Content is
-        sent to external tools only when you explicitly use those tools.
+        Truly is a privacy-conscious reading assistant for social feeds and web
+        pages. Reading analysis runs in the model environment you choose, such
+        as Chrome built-in Gemini Nano, a local model endpoint, or a private
+        endpoint you configure. Content is sent to external tools only when you
+        explicitly use those tools.
       </p>
 
       <p>
@@ -123,6 +125,12 @@
       <p>When you use Truly on supported pages, the extension may process:</p>
       <ul>
         <li>visible post text, shared-post text, link previews, and image/video context;</li>
+        <li>visible current-page text and page metadata when you explicitly use Page/Web reading;</li>
+        <li>
+          a visible-tab screenshot only when Page/Web offers
+          screenshot-assisted recovery, the configured model source supports
+          vision input, and you confirm the preview;
+        </li>
         <li>page-hosted media URLs or image alt text when needed for reading assistance;</li>
         <li>model analysis generated from the selected model source;</li>
         <li>
@@ -147,7 +155,17 @@
           authorize in Chrome when permission is required.
         </li>
       </ul>
-      <p>Truly does not send feed content to a Truly-owned server.</p>
+      <p>Truly does not send feed or page content to a Truly-owned server.</p>
+      <p>
+        Page/Web screenshot-assisted recovery is off by default and not
+        automatic. If Truly cannot build enough reading context from visible
+        page text, it may offer a screenshot preview only when the selected
+        model source has passed a vision capability check. The screenshot is
+        sent to that selected model source only after you confirm the preview.
+        Screenshot data is kept in the current in-memory Page/Web session only;
+        it is not written to Chrome extension storage, logs, or durable page
+        history.
+      </p>
 
       <h2>User-Triggered External Tools</h2>
       <p>
@@ -168,8 +186,20 @@
       <h2>Stored Data</h2>
       <p>
         Truly stores extension settings and readiness state in Chrome extension
-        storage. Depending on your settings, this can include model endpoint URLs
-        and model names. Do not store secrets in model endpoint URLs.
+        storage. Depending on your settings, this can include model endpoint
+        URLs and model names. Chrome extension storage is not a secret vault. Do
+        not store API keys, bearer tokens, or other secrets in model endpoint
+        URLs.
+      </p>
+      <p>
+        Page/Web reading sessions are session-only by default. Truly does not
+        store a durable full-page reading history unless a future
+        privacy-reviewed feature explicitly changes that behavior.
+      </p>
+      <p>
+        Confirmed Page/Web screenshots are also session-only. They are cleared
+        with the current Page/Web session and are not persisted to
+        <code>chrome.storage</code>.
       </p>
       <p>
         Markdown notes are saved only when you explicitly download them.
