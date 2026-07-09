@@ -104,7 +104,7 @@
     <main>
       <h1>Privacy Policy</h1>
       <p class="meta">
-        Last updated: 2026-07-04<br>
+        Last updated: 2026-07-09<br>
         Canonical URL: https://trulyreader.org/privacy
       </p>
 
@@ -130,7 +130,11 @@
           supported post context or sponsorship signals needed to match the
           current visible feed surface;
         </li>
-        <li>visible current-page text and page metadata when you explicitly use Page/Web reading;</li>
+        <li>
+          visible current-page text and page metadata when you use Page/Web
+          reading, including automatic reads of the current page while the Side
+          Panel is open if you enabled all-sites access;
+        </li>
         <li>
           a visible-tab screenshot only when Page/Web offers
           screenshot-assisted recovery, the configured model source supports
@@ -171,12 +175,16 @@
       </p>
       <p>
         For Page/Web reading, Truly normally uses the one-time page access
-        granted when you click the toolbar action. If you explicitly enable
-        General Page all-sites access in Settings, the side panel can read the
-        current page on ordinary HTTP/HTTPS sites you visit when you press a
-        read/analyze action.
-        This opt-in does not enable background crawling or persistent full-page
-        history.
+        granted when you click the toolbar action. From the side panel you can
+        also authorize a single domain; that grant gives persistent read access
+        to that one site only, and reading still happens only while you are
+        using the side panel. If you explicitly enable General Page all-sites
+        access in Settings, Truly can read the current page on ordinary
+        HTTP/HTTPS sites automatically while the Side Panel is open, and
+        suitable pages may automatically produce a short reading brief through
+        the model source you configured. Closing the side panel stops these
+        reads. None of these options enable background crawling or persistent
+        full-page history.
       </p>
       <p>
         Page/Web screenshot-assisted recovery is off by default and not
